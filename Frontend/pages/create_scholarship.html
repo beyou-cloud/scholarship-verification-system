@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Scholarship -  Scholarship Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Additional styles for create scholarship page */
+        .create-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        /* Header */
+        .create-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px 15px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .create-header::before {
+            content: "🇮🇳";
+            position: absolute;
+            right: 20px;
+            bottom: -20px;
+            font-size: 120px;
+            opacity: 0.1;
+            transform: rotate(-10deg);
+        }
+        
+        .create-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #ff9933;
+        }
+        
+        .create-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        /* Progress Bar */
+        .progress-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin: -2rem 2rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #ddd;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .step {
+            background: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 500;
+            color: #666;
+            position: relative;
+            z-index: 2;
+            border: 2px solid #ddd;
+        }
+        
+        .step.active {
+            background: #1e3c72;
+            color: white;
+            border-color: #1e3c72;
+        }
+        
+        .step.completed {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            width: 33%;
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+        
+        /* Form Card */
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .form-section {
+            padding: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-title {
+            color: #1e3c72;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-title span {
+            background: #1e3c72;
+            color: white;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.9rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group label .required {
+            color: #dc3545;
+            margin-left: 0.2rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30,60,114,0.1);
+        }
+        
+        .form-group input.error,
+        .form-group select.error,
+        .form-group textarea.error {
+            border-color: #dc3545;
+        }
+        
+        .input-hint {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.3rem;
+        }
+        
+        /* Document Requirements */
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .doc-checkbox {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .doc-checkbox:hover {
+            border-color: #1e3c72;
+        }
+        
+        .doc-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .doc-checkbox label {
+            flex: 1;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        /* Eligibility Section */
+        .eligibility-group {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: 2px solid #ddd;
+        }
+        
+        .radio-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+        }
+        
+        /* Amount Input */
+        .amount-input {
+            position: relative;
+        }
+        
+        .amount-input::before {
+            content: '₹';
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-weight: bold;
+        }
+        
+        .amount-input input {
+            padding-left: 2rem;
+        }
+        
+        /* Date Picker */
+        .date-input {
+            position: relative;
+        }
+        
+        .date-input::after {
+            content: '📅';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        /* Preview Card */
+        .preview-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .preview-card.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .preview-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .preview-header h2 {
+            color: #ff9933;
+            margin-bottom: 0.5rem;
+        }
+        
+        .preview-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .preview-item {
+            padding: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .preview-item strong {
+            color: #1e3c72;
+            display: inline-block;
+            width: 120px;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            padding: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            min-width: 150px;
+        }
+        
+        /* Success Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            padding: 2rem;
+            text-align: center;
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 3rem;
+            animation: scaleIn 0.5s ease;
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .create-header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-steps {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+            
+            .progress-steps::before {
+                display: none;
+            }
+            
+            .step {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn-large {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span>🇮🇳  Scholarship Portal (Provider Panel)</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="provider_dashboard.html">Dashboard</a></li>
+                <li><a href="create_scholarship.html" class="active">Create</a></li>
+                <li><a href="manage_scholarships.html">Manage</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="create-container">
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="spinner"></div>
+
+        <!-- Header -->
+        <div class="create-header">
+            <h1>➕ Create New Scholarship</h1>
+            <p>Launch a new scholarship program for deserving students</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-section">
+            <div class="progress-steps">
+                <div class="step active" id="step1">1. Basic Details</div>
+                <div class="step" id="step2">2. Eligibility Criteria</div>
+                <div class="step" id="step3">3. Documents Required</div>
+                <div class="step" id="step4">4. Review & Publish</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 25%;"></div>
+            </div>
+        </div>
+
+        <!-- Main Form Card -->
+        <div class="form-card">
+            <form id="createScholarshipForm">
+                <!-- Section 1: Basic Details -->
+                <div class="form-section" id="section1">
+                    <div class="section-title">
+                        <span>1</span> Basic Scholarship Details
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="scholarshipName">Scholarship Name <span class="required">*</span></label>
+                       <input type="text" id="scholarshipName" placeholder="e.g.,  Merit Scholarship 2024">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Description <span class="required">*</span></label>
+                       <textarea id="description" placeholder="Describe the scholarship, objectives and benefits..."></textarea>                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="providerName">Provider Name <span class="required">*</span></label>
+                            <input type="text" id="providerName" value="Education Foundation of India" readonly>
+                            <div class="input-hint">Your organization name (auto-filled)</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="scholarshipType">Scholarship Type <span class="required">*</span></label>
+                            <select id="scholarshipType">
+                                <option value="">Select Type</option>
+                                <option value="merit" selected>Merit Based</option>
+                                <option value="need">Need Based</option>
+                                <option value="category">Category Based</option>
+                                <option value="sports">Sports Based</option>
+                                <option value="minority">Minority</option>
+                                <option value="girl">Girl Child</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="totalSeats">Total Seats/Number of Awards <span class="required">*</span></label>
+                           <input type="number" id="totalSeats" placeholder="Enter total seats">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="applicationFee">Application Fee (₹) <span class="required">*</span></label>
+                            <div class="amount-input">
+                                <input type="number" id="applicationFee" min="0" value="0">
+                            </div>
+                            <div class="input-hint">Enter 0 for free application</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="awardAmount">Award Amount (₹) <span class="required">*</span></label>
+                            <div class="amount-input">
+                               <input type="number" id="awardAmount" placeholder="Enter scholarship amount">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="amountType">Amount Type <span class="required">*</span></label>
+                            <select id="amountType">
+                                <option value="fixed" selected>Fixed Amount</option>
+                                <option value="tuition">Full Tuition Fee</option>
+                                <option value="variable">Variable (based on need)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="startDate">Application Start Date <span class="required">*</span></label>
+                            <div class="date-input">
+                                <input type="date" id="startDate">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="deadline">Application Deadline <span class="required">*</span></label>
+                            <div class="date-input">
+                                <input type="date" id="deadline">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notificationDate">Result Notification Date</label>
+                        <div class="date-input">
+                            <input type="date" id="notificationDate">
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons" style="padding: 1rem 0 0;">
+                        <button type="button" class="btn btn-primary btn-large" onclick="nextSection(2)">Save & Continue →</button>
+                    </div>
+                </div>
+
+                <!-- Section 2: Eligibility Criteria -->
+                <div class="form-section" id="section2" style="display: none;">
+                    <div class="section-title">
+                        <span>2</span> Eligibility Criteria
+                    </div>
+                    
+                    <div class="eligibility-group">
+                        <h4 style="color: #1e3c72; margin-bottom: 1rem;">Academic Requirements</h4>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="minPercentage">Minimum Percentage Required (%)</label>
+                                <input type="number" id="minPercentage" min="0" max="100" value="60">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="minQualification">Minimum Qualification</label>
+                                <select id="minQualification">
+                                    <option value="10th">10th Passed</option>
+                                    <option value="12th" selected>12th Passed</option>
+                                    <option value="diploma">Diploma</option>
+                                    <option value="ug">Undergraduate</option>
+                                    <option value="pg">Postgraduate</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="eligibility-group">
+                        <h4 style="color: #1e3c72; margin-bottom: 1rem;">Income Criteria</h4>
+                        
+                        <div class="form-group">
+                            <label for="incomeLimit">Annual Family Income Limit (₹)</label>
+                            <div class="amount-input">
+                                <input type="number" id="incomeLimit" value="200000">
+                            </div>
+                        </div>
+                        
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="incomeType" id="incomeBelow" value="below" checked>
+                                <label for="incomeBelow">Below income limit</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="incomeType" id="incomeUpTo" value="upto">
+                                <label for="incomeUpTo">Up to income limit</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="incomeType" id="incomeNo" value="no">
+                                <label for="incomeNo">No income limit</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="eligibility-group">
+                        <h4 style="color: #1e3c72; margin-bottom: 1rem;">Category & Reservation</h4>
+                        
+                        <div class="form-group">
+                            <label>Eligible Categories</label>
+                            <div class="radio-group" style="flex-direction: column; gap: 0.5rem;">
+                                <div class="radio-option" style="width: 100%;">
+                                    <input type="checkbox" id="catGeneral" value="general" checked>
+                                    <label for="catGeneral">General</label>
+                                </div>
+                                <div class="radio-option" style="width: 100%;">
+                                    <input type="checkbox" id="catOBC" value="obc" checked>
+                                    <label for="catOBC">OBC</label>
+                                </div>
+                                <div class="radio-option" style="width: 100%;">
+                                    <input type="checkbox" id="catSC" value="sc" checked>
+                                    <label for="catSC">SC</label>
+                                </div>
+                                <div class="radio-option" style="width: 100%;">
+                                    <input type="checkbox" id="catST" value="st" checked>
+                                    <label for="catST">ST</label>
+                                </div>
+                                <div class="radio-option" style="width: 100%;">
+                                    <input type="checkbox" id="catEWS" value="ews" checked>
+                                    <label for="catEWS">EWS</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="eligibility-group">
+                        <h4 style="color: #1e3c72; margin-bottom: 1rem;">Additional Criteria</h4>
+                        
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender">
+                                <option value="all">All Genders</option>
+                                <option value="male">Male Only</option>
+                                <option value="female">Female Only</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ageLimit">Age Limit (years)</label>
+                            <input type="number" id="ageLimit" min="0" value="25">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="disabilityQuota">Disability Quota (%)</label>
+                            <input type="number" id="disabilityQuota" min="0" max="100" value="5">
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons" style="padding: 1rem 0 0; display: flex; justify-content: space-between;">
+                        <button type="button" class="btn btn-secondary btn-large" onclick="prevSection(1)">← Previous</button>
+                        <button type="button" class="btn btn-primary btn-large" onclick="nextSection(3)">Save & Continue →</button>
+                    </div>
+                </div>
+
+                <!-- Section 3: Documents Required -->
+                <div class="form-section" id="section3" style="display: none;">
+                    <div class="section-title">
+                        <span>3</span> Document Requirements
+                    </div>
+                    
+                    <p style="color: #666; margin-bottom: 1.5rem;">Select the documents students must upload while applying</p>
+                    
+                    <div class="docs-grid">
+                        <div class="doc-checkbox">
+                            <input type="checkbox" id="docAadhaar" checked>
+                            <label for="docAadhaar">Aadhaar Card</label>
+                        </div>
+                        
+                        <div class="doc-checkbox">
+                            <input type="checkbox" id="docPAN" checked>
+                            <label for="docPAN">PAN Card</label>
+                        </div>
+                        
+                        <div class="doc-checkbox">
+                            <input type="checkbox" id="docIncome" checked>
+                            <label for="docIncome">Income Certificate</label>
+                        </div>
+                        
+                        <div class="doc-checkbox">
+                            <input type="checkbox" id="docCaste" checked>
+                            <label for="docCaste">Caste Certificate</label>
+                        </div>
+                        
+                        <div class="doc-checkbox">
+                            <input type="checkbox" id="docDomicile" checked>
+                            <label for="docDomicile">Domicile Certificate</label>
+                        </div>
+                        
+                        <div class="doc-checkbox">
+                            <input type="checkbox" id="doc10th" checked>
+                            <label for="doc10th">10th Marksheet</label>
+                        </div>
+                        
+                        <div class="doc-checkbox">
+                            <input type="checkbox" id="doc12th" checked>
+                            <label for="doc12th">12th Marksheet</label>
+                        </div>
+                        
+                        <div class="doc-checkbox">
+                            <input type="checkbox" id="docGraduation" checked>
+                            <label for="docGraduation">Graduation Marksheet</label>
+                        </div>
+                        
+                        <div class="doc-checkbox">
+                            <input type="checkbox" id="docPhoto" checked>
+                            <label for="docPhoto">Passport Photo</label>
+                        </div>
+                        
+                        <div class="doc-checkbox">
+                            <input type="checkbox" id="docSignature" checked>
+                            <label for="docSignature">Signature</label>
+                        </div>
+                        
+                        <div class="doc-checkbox">
+                            <input type="checkbox" id="docBank" checked>
+                            <label for="docBank">Bank Passbook</label>
+                        </div>
+                        
+                        <div class="doc-checkbox">
+                            <input type="checkbox" id="docDeclaration" checked>
+                            <label for="docDeclaration">Self Declaration</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="additionalDocs">Additional Documents (if any)</label>
+                        <textarea id="additionalDocs" rows="3" placeholder="Specify any additional documents required..."></textarea>
+                    </div>
+                    
+                    <div class="action-buttons" style="padding: 1rem 0 0; display: flex; justify-content: space-between;">
+                        <button type="button" class="btn btn-secondary btn-large" onclick="prevSection(2)">← Previous</button>
+                        <button type="button" class="btn btn-primary btn-large" onclick="nextSection(4)">Review Scholarship →</button>
+                    </div>
+                </div>
+
+                <!-- Section 4: Review & Publish -->
+                <div class="form-section" id="section4" style="display: none;">
+                    <div class="section-title">
+                        <span>4</span> Review & Publish
+                    </div>
+                    
+                    <!-- Preview Card -->
+                    <div class="preview-card active" id="previewCard">
+                        <div class="preview-header">
+                            <h2 id="previewName">Merit cum Means Scholarship</h2>
+                            <p id="previewProvider">Education Foundation of India</p>
+                        </div>
+                        
+                        <div class="preview-details">
+                            <div class="preview-item">
+                                <strong>Type:</strong> <span id="previewType">Merit Based</span>
+                            </div>
+                            <div class="preview-item">
+                                <strong>Total Seats:</strong> <span id="previewSeats">100</span>
+                            </div>
+                            <div class="preview-item">
+                                <strong>Award Amount:</strong> <span id="previewAmount">₹50,000</span>
+                            </div>
+                            <div class="preview-item">
+                                <strong>Application Fee:</strong> <span id="previewFee">Free</span>
+                            </div>
+                            <div class="preview-item">
+                                <strong>Start Date:</strong> <span id="previewStart">01-01-2024</span>
+                            </div>
+                            <div class="preview-item">
+                                <strong>Deadline:</strong> <span id="previewDeadline">30-09-2024</span>
+                            </div>
+                            <div class="preview-item">
+                                <strong>Min Percentage:</strong> <span id="previewPercentage">60%</span>
+                            </div>
+                            <div class="preview-item">
+                                <strong>Income Limit:</strong> <span id="previewIncome">₹2,00,000</span>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 1.5rem;">
+                            <strong>Description:</strong>
+                            <p id="previewDescription">A merit-based scholarship for outstanding students pursuing higher education.</p>
+                        </div>
+                        
+                        <div style="margin-top: 1.5rem;">
+                            <strong>Documents Required:</strong>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;" id="previewDocs">
+                                <span class="eligibility-tag">Aadhaar Card</span>
+                                <span class="eligibility-tag">PAN Card</span>
+                                <span class="eligibility-tag">Income Certificate</span>
+                                <span class="eligibility-tag">10th Marksheet</span>
+                                <span class="eligibility-tag">12th Marksheet</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 2rem 0;">
+                        <div class="declaration-item">
+                            <input type="checkbox" id="declaration1">
+                            <label for="declaration1">I confirm that all information provided is accurate and complete.</label>
+                        </div>
+                        <div class="declaration-item">
+                            <input type="checkbox" id="declaration2">
+                            <label for="declaration2">I agree to the terms and conditions of the scholarship portal.</label>
+                        </div>
+                        <div class="declaration-item">
+                            <input type="checkbox" id="declaration3">
+                            <label for="declaration3">I understand that any false information may lead to legal action.</label>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons" style="padding: 1rem 0 0; display: flex; justify-content: space-between;">
+                        <button type="button" class="btn btn-secondary btn-large" onclick="prevSection(3)">← Previous</button>
+                        <button type="button" class="btn btn-success btn-large" onclick="previewScholarship()">👁️ Preview</button>
+                        <button type="submit" class="btn btn-primary btn-large">🚀 Publish Scholarship</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="success-icon">✓</div>
+            <h2 style="color: #28a745; margin-bottom: 1rem;">Scholarship Created Successfully!</h2>
+            <p style="margin-bottom: 1rem;">Your scholarship has been published and is now visible to students.</p>
+            <p style="margin-bottom: 2rem;">Scholarship ID: <strong id="scholarshipId">SCH2024001</strong></p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button class="btn btn-primary" onclick="goToManage()">Manage Scholarships</button>
+                <button class="btn btn-secondary" onclick="createAnother()">Create Another</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024  Scholarship Portal - Government of India (Provider Panel)</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Navigation between sections
+        function nextSection(sectionNum) {
+            // Hide all sections
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`section${i}`).style.display = 'none';
+                document.getElementById(`step${i}`).classList.remove('active');
+            }
+            
+            // Show selected section
+            document.getElementById(`section${sectionNum}`).style.display = 'block';
+            document.getElementById(`step${sectionNum}`).classList.add('active');
+            
+            // Update progress bar
+            const progress = (sectionNum / 4) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Mark previous steps as completed
+            for (let i = 1; i < sectionNum; i++) {
+                document.getElementById(`step${i}`).classList.add('completed');
+            }
+        }
+        
+        function prevSection(sectionNum) {
+            nextSection(sectionNum);
+        }
+        
+        // Update preview
+        function updatePreview() {
+            document.getElementById('previewName').textContent = document.getElementById('scholarshipName').value;
+            document.getElementById('previewDescription').textContent = document.getElementById('description').value;
+            
+            const type = document.getElementById('scholarshipType');
+            document.getElementById('previewType').textContent = type.options[type.selectedIndex].text;
+            
+            document.getElementById('previewSeats').textContent = document.getElementById('totalSeats').value;
+            
+            const amount = document.getElementById('awardAmount').value;
+            document.getElementById('previewAmount').textContent = '₹' + parseInt(amount).toLocaleString();
+            
+            const fee = document.getElementById('applicationFee').value;
+            document.getElementById('previewFee').textContent = fee == 0 ? 'Free' : '₹' + fee;
+            
+            // Format dates
+            const start = new Date(document.getElementById('startDate').value);
+            const deadline = new Date(document.getElementById('deadline').value);
+            document.getElementById('previewStart').textContent = start.toLocaleDateString('en-IN');
+            document.getElementById('previewDeadline').textContent = deadline.toLocaleDateString('en-IN');
+            
+            document.getElementById('previewPercentage').textContent = document.getElementById('minPercentage').value + '%';
+            
+            const income = document.getElementById('incomeLimit').value;
+            document.getElementById('previewIncome').textContent = '₹' + parseInt(income).toLocaleString();
+            
+            // Update documents
+            const docsContainer = document.getElementById('previewDocs');
+            docsContainer.innerHTML = '';
+            
+            const docChecks = ['docAadhaar', 'docPAN', 'docIncome', 'docCaste', 'docDomicile', 'doc10th', 'doc12th', 'docGraduation', 'docPhoto', 'docSignature', 'docBank', 'docDeclaration'];
+            const docNames = {
+                docAadhaar: 'Aadhaar Card',
+                docPAN: 'PAN Card',
+                docIncome: 'Income Certificate',
+                docCaste: 'Caste Certificate',
+                docDomicile: 'Domicile Certificate',
+                doc10th: '10th Marksheet',
+                doc12th: '12th Marksheet',
+                docGraduation: 'Graduation Marksheet',
+                docPhoto: 'Passport Photo',
+                docSignature: 'Signature',
+                docBank: 'Bank Passbook',
+                docDeclaration: 'Self Declaration'
+            };
+            
+            docChecks.forEach(doc => {
+                if (document.getElementById(doc).checked) {
+                    const tag = document.createElement('span');
+                    tag.className = 'eligibility-tag';
+                    tag.textContent = docNames[doc];
+                    docsContainer.appendChild(tag);
+                }
+            });
+        }
+        
+        // Preview scholarship
+        function previewScholarship() {
+            updatePreview();
+            showAlert('Preview updated', 'success');
+        }
+        
+        // Form submission
+        document.getElementById('createScholarshipForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Check declarations
+            if (!document.getElementById('declaration1').checked ||
+                !document.getElementById('declaration2').checked ||
+                !document.getElementById('declaration3').checked) {
+                showAlert('Please accept all declarations', 'error');
+                return;
+            }
+            
+            // Show loading
+            showLoading();
+            
+            setTimeout(() => {
+                hideLoading();
+                document.getElementById('successModal').classList.add('active');
+            }, 2000);
+        });
+        
+        // Navigation after creation
+        function goToManage() {
+            window.location.href = 'manage_scholarships.html';
+        }
+        
+        function createAnother() {
+            document.getElementById('successModal').classList.remove('active');
+            resetForm();
+        }
+        
+        // Reset form
+        function resetForm() {
+            window.location.reload();
+        }
+        
+        // Show alert
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '20px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.style.minWidth = '300px';
+            alertDiv.textContent = message;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set minimum dates
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDate').min = today;
+            document.getElementById('deadline').min = today;
+            
+            // Update preview on input changes
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('change', updatePreview);
+            });
+        });
+    </script>
+</body>
+</html>

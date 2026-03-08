@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register -  Scholarship Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Additional styles for registration page */
+        .register-container {
+            min-height: calc(100vh - 150px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .register-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 600px;
+            overflow: hidden;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .register-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .register-header::before {
+            content: "🇮🇳";
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 100px;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+        
+        .register-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #ff9933;
+        }
+        
+        .register-header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        
+        .register-body {
+            padding: 2rem;
+        }
+        
+        .role-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+        
+        .role-option {
+            flex: 1;
+            cursor: pointer;
+        }
+        
+        .role-option input[type="radio"] {
+            display: none;
+        }
+        
+        .role-option label {
+            display: block;
+            padding: 1rem;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .role-option input[type="radio"]:checked + label {
+            background: #1e3c72;
+            color: white;
+            border-color: #1e3c72;
+        }
+        
+        .role-option.student input[type="radio"]:checked + label {
+            background: #28a745;
+            border-color: #28a745;
+        }
+        
+        .role-option.provider input[type="radio"]:checked + label {
+            background: #dc3545;
+            border-color: #dc3545;
+        }
+        
+        .student-fields, .provider-fields {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .section-title {
+            color: #1e3c72;
+            font-size: 1.2rem;
+            margin: 1.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #ff9933;
+        }
+        
+        .password-strength {
+            margin-top: 0.5rem;
+            height: 5px;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s, background 0.3s;
+        }
+        
+        .strength-text {
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
+            text-align: right;
+        }
+        
+        .terms-check {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            color: #666;
+        }
+        
+        .register-footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .register-footer a {
+            color: #1e3c72;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .register-footer a:hover {
+            text-decoration: underline;
+            color: #ff9933;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid #28a745;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .input-hint {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.2rem;
+        }
+        
+        .validation-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: none;
+        }
+        
+        .validation-icon.valid {
+            color: #28a745;
+            display: block;
+        }
+        
+        .validation-icon.invalid {
+            color: #dc3545;
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .role-selector {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span>🇮🇳  Scholarship Portal</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html" class="active">Register</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-header">
+                <h2>📝 New Registration</h2>
+                <p>Create your account to access scholarships</p>
+            </div>
+            
+            <div class="register-body">
+                <!-- Loading Spinner -->
+                <div id="loadingSpinner" class="spinner"></div>
+                
+                <!-- Error Message Area -->
+                <div id="errorMessage" class="error-message">
+                    <strong>⚠️ Error:</strong> <span id="errorText"></span>
+                </div>
+                
+                <!-- Success Message Area -->
+                <div id="successMessage" class="success-message">
+                    <strong>✅ Success:</strong> <span id="successText"></span>
+                </div>
+                
+                <!-- Registration Form -->
+                <form id="registerForm">
+                    <!-- Role Selection -->
+                    <div class="role-selector">
+                        <div class="role-option student">
+                            <input type="radio" name="role" id="roleStudent" value="student" checked>
+                            <label for="roleStudent">🎓 Student</label>
+                        </div>
+                        <div class="role-option provider">
+                            <input type="radio" name="role" id="roleProvider" value="provider">
+                            <label for="roleProvider">💼 Scholarship Provider</label>
+                        </div>
+                    </div>
+                    
+                    <!-- Common Fields -->
+                    <div class="section-title">📋 Basic Information</div>
+                    
+                    <div class="form-group">
+                        <label for="fullName">Full Name <span style="color: red;">*</span></label>
+                        <input type="text" id="fullName" placeholder="Enter your full name" value="John Doe">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address <span style="color: red;">*</span></label>
+                            <input type="email" id="email" placeholder="Enter your email" value="john@example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mobile">Mobile Number <span style="color: red;">*</span></label>
+                            <input type="tel" id="mobile" placeholder="10 digit mobile" maxlength="10" value="9876543210">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Password <span style="color: red;">*</span></label>
+                            <input type="password" id="password" placeholder="Create password" value="Password@123">
+                            <div class="password-strength">
+                                <div id="strengthBar" class="strength-bar"></div>
+                            </div>
+                            <div id="strengthText" class="strength-text">Enter password</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password <span style="color: red;">*</span></label>
+                            <input type="password" id="confirmPassword" placeholder="Confirm password" value="Password@123">
+                        </div>
+                    </div>
+                    
+                    <!-- Student Specific Fields -->
+                    <div id="studentFields" class="student-fields" style="display: block;">
+                        <div class="section-title">🎓 Student Details</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="enrollment">Enrollment Number <span style="color: red;">*</span></label>
+                                <input type="text" id="enrollment" placeholder="Enter enrollment number" value="2024CS001">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="course">Course <span style="color: red;">*</span></label>
+                                <select id="course">
+                                    <option value="">Select Course</option>
+                                    <option value="btech" selected>B.Tech</option>
+                                    <option value="be">B.E</option>
+                                    <option value="bsc">B.Sc</option>
+                                    <option value="ba">B.A</option>
+                                    <option value="bcom">B.Com</option>
+                                    <option value="mtech">M.Tech</option>
+                                    <option value="msc">M.Sc</option>
+                                    <option value="ma">M.A</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="year">Year of Study <span style="color: red;">*</span></label>
+                                <select id="year">
+                                    <option value="">Select Year</option>
+                                    <option value="1" selected>1st Year</option>
+                                    <option value="2">2nd Year</option>
+                                    <option value="3">3rd Year</option>
+                                    <option value="4">4th Year</option>
+                                    <option value="5">5th Year</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="department">Department <span style="color: red;">*</span></label>
+                                <input type="text" id="department" placeholder="Enter department" value="Computer Science">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="dob">Date of Birth</label>
+                                <input type="date" id="dob" value="2000-01-01">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="gender">⚥ Gender</label>
+                                <select id="gender">
+                                    <option value="">Select Gender</option>
+                                    <option value="male" selected>Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <textarea id="address" rows="2" placeholder="Enter your address">123, Main Street, City</textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="state">State</label>
+                                <select id="state">
+                                    <option value="">Select State</option>
+                                    <option value="delhi" selected>Delhi</option>
+                                    <option value="maharashtra">Maharashtra</option>
+                                    <option value="karnataka">Karnataka</option>
+                                    <option value="tamilnadu">Tamil Nadu</option>
+                                    <option value="up">Uttar Pradesh</option>
+                                    <option value="gujarat">Gujarat</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="pincode">Pincode</label>
+                                <input type="text" id="pincode" placeholder="Enter pincode" maxlength="6" value="110001">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select id="category">
+                                <option value="">Select Category</option>
+                                <option value="general" selected>General</option>
+                                <option value="obc">OBC</option>
+                                <option value="sc">SC</option>
+                                <option value="st">ST</option>
+                                <option value="ews">EWS</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="annualIncome">Annual Family Income</label>
+                            <input type="number" id="annualIncome" placeholder="Enter annual income" value="250000">
+                        </div>
+                    </div>
+                    
+                    <!-- Provider Specific Fields -->
+                    <div id="providerFields" class="provider-fields">
+                        <div class="section-title">Provider Details</div>
+                        
+                        <div class="form-group">
+                            <label for="orgName">Organization Name <span style="color: red;">*</span></label>
+                            <input type="text" id="orgName" placeholder="Enter organization name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="orgType">Organization Type</label>
+                            <select id="orgType">
+                                <option value="">Select Type</option>
+                                <option value="government">Government</option>
+                                <option value="private">Private</option>
+                                <option value="ngo">NGO</option>
+                                <option value="trust">Trust</option>
+                                <option value="university">University</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="orgEmail">📧 Official Email</label>
+                                <input type="email" id="orgEmail" placeholder="Official email">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="orgPhone">📞 Office Phone</label>
+                                <input type="tel" id="orgPhone" placeholder="Office phone number">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="orgAddress">🏢 Organization Address</label>
+                            <textarea id="orgAddress" rows="2" placeholder="Enter organization address"></textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="orgCity">🏙️ City</label>
+                                <input type="text" id="orgCity" placeholder="City">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="orgState">📍 State</label>
+                                <select id="orgState">
+                                    <option value="">Select State</option>
+                                    <option value="delhi">Delhi</option>
+                                    <option value="maharashtra">Maharashtra</option>
+                                    <option value="karnataka">Karnataka</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="orgPincode">📮 Pincode</label>
+                            <input type="text" id="orgPincode" placeholder="Pincode" maxlength="6">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="website">🌐 Website</label>
+                            <input type="url" id="website" placeholder="https://example.com">
+                        </div>
+                    </div>
+                    
+                    <!-- Terms and Conditions -->
+                    <div class="terms-check">
+                        <input type="checkbox" id="terms" checked>
+                        <label for="terms">I agree to the <a href="#" style="color: #1e3c72;">Terms and Conditions</a> and <a href="#" style="color: #1e3c72;">Privacy Policy</a> <span style="color: red;">*</span></label>
+                    </div>
+                    
+                    <div class="terms-check">
+                        <input type="checkbox" id="updates">
+                        <label for="updates">I want to receive updates about scholarships via email/SMS</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">
+                        <span id="registerText">📝 Register</span>
+                        <span id="registerLoading" style="display: none;">⏳ Processing...</span>
+                    </button>
+                </form>
+                
+                <!-- Already have account -->
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <p>Already have an account? <a href="login.html" style="color: #1e3c72; font-weight: 500;">Login here</a></p>
+                </div>
+            </div>
+            
+            <div class="register-footer">
+                <p>Registration is free and secure</p>
+                <p style="margin-top: 0.5rem; font-size: 0.8rem; color: #999;">
+                    Government of India Initiative
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024  Scholarship Portal - Government of India</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Toggle between student and provider fields
+        document.querySelectorAll('input[name="role"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'student') {
+                    document.getElementById('studentFields').style.display = 'block';
+                    document.getElementById('providerFields').style.display = 'none';
+                    
+                    // Make student fields required
+                    document.getElementById('enrollment').required = true;
+                    document.getElementById('course').required = true;
+                    document.getElementById('year').required = true;
+                    document.getElementById('department').required = true;
+                    
+                    // Remove required from provider fields
+                    document.getElementById('orgName').required = false;
+                } else {
+                    document.getElementById('studentFields').style.display = 'none';
+                    document.getElementById('providerFields').style.display = 'block';
+                    
+                    // Remove required from student fields
+                    document.getElementById('enrollment').required = false;
+                    document.getElementById('course').required = false;
+                    document.getElementById('year').required = false;
+                    document.getElementById('department').required = false;
+                    
+                    // Make provider fields required
+                    document.getElementById('orgName').required = true;
+                }
+            });
+        });
+        
+        // Password strength checker
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.getElementById('strengthBar');
+            const strengthText = document.getElementById('strengthText');
+            
+            let strength = 0;
+            
+            // Check length
+            if (password.length >= 8) strength += 25;
+            
+            // Check for numbers
+            if (/\d/.test(password)) strength += 25;
+            
+            // Check for lowercase
+            if (/[a-z]/.test(password)) strength += 25;
+            
+            // Check for uppercase and special characters
+            if (/[A-Z]/.test(password) && /[!@#$%^&*]/.test(password)) strength += 25;
+            
+            strengthBar.style.width = strength + '%';
+            
+            if (strength <= 25) {
+                strengthBar.style.background = '#dc3545';
+                strengthText.textContent = 'Weak password';
+                strengthText.style.color = '#dc3545';
+            } else if (strength <= 50) {
+                strengthBar.style.background = '#ffc107';
+                strengthText.textContent = 'Fair password';
+                strengthText.style.color = '#ffc107';
+            } else if (strength <= 75) {
+                strengthBar.style.background = '#17a2b8';
+                strengthText.textContent = 'Good password';
+                strengthText.style.color = '#17a2b8';
+            } else {
+                strengthBar.style.background = '#28a745';
+                strengthText.textContent = 'Strong password';
+                strengthText.style.color = '#28a745';
+            }
+        });
+        
+        // Confirm password match
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirm = this.value;
+            
+            if (confirm && password !== confirm) {
+                this.style.borderColor = '#dc3545';
+            } else if (confirm && password === confirm) {
+                this.style.borderColor = '#28a745';
+            } else {
+                this.style.borderColor = '#ddd';
+            }
+        });
+        
+        // Form submission
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading
+            document.getElementById('registerText').style.display = 'none';
+            document.getElementById('registerLoading').style.display = 'inline';
+            document.querySelector('.btn-primary').disabled = true;
+            
+            // Simulate registration process
+            setTimeout(() => {
+                // Hide loading
+                document.getElementById('registerText').style.display = 'inline';
+                document.getElementById('registerLoading').style.display = 'none';
+                document.querySelector('.btn-primary').disabled = false;
+                
+                // Show success message
+                showMessage('Registration successful! Redirecting to login...', 'success');
+                
+                // Redirect to login
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            }, 2000);
+        });
+        
+        // Show message function
+        function showMessage(message, type) {
+            if (type === 'error') {
+                document.getElementById('errorText').textContent = message;
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+                
+                setTimeout(() => {
+                    document.getElementById('errorMessage').style.display = 'none';
+                }, 3000);
+            } else {
+                document.getElementById('successText').textContent = message;
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('errorMessage').style.display = 'none';
+                
+                setTimeout(() => {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // Mobile number validation
+        document.getElementById('mobile').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+        });
+        
+        // Pincode validation
+        document.getElementById('pincode').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);
+        });
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default role
+            document.getElementById('roleStudent').checked = true;
+            
+            // Trigger password strength check
+            document.getElementById('password').dispatchEvent(new Event('input'));
+        });
+    </script>
+</body>
+</html>

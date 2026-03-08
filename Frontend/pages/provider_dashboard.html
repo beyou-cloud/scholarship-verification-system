@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provider Dashboard -  Scholarship Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Additional styles for provider dashboard */
+        .provider-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        /* Header */
+        .provider-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px 15px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .provider-header::before {
+            content: "🇮🇳";
+            position: absolute;
+            right: 20px;
+            bottom: -20px;
+            font-size: 120px;
+            opacity: 0.1;
+            transform: rotate(-10deg);
+        }
+        
+        .provider-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #ff9933;
+        }
+        
+        .provider-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        /* Welcome Banner */
+        .welcome-banner {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: -2rem 2rem 2rem;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .provider-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .provider-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+        }
+        
+        .provider-details h2 {
+            color: #1e3c72;
+            margin-bottom: 0.3rem;
+        }
+        
+        .provider-details p {
+            color: #666;
+        }
+        
+        .verified-badge {
+            background: #28a745;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .stats-row {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item .number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        
+        .stat-item .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.3s;
+            border-left: 4px solid #1e3c72;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: #f0f7ff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        .stat-card .stat-details h3 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-card .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        
+        /* Action Cards */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            text-align: center;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+            border-color: #1e3c72;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+        
+        .action-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .action-card h3 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+        
+        .action-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .action-card .btn {
+            width: 100%;
+        }
+        
+        /* Scholarships Section */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-header h2 {
+            color: #1e3c72;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .scholarships-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .scholarship-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border: 1px solid #eee;
+        }
+        
+        .scholarship-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+        
+        .scholarship-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 1.2rem;
+            position: relative;
+        }
+        
+        .scholarship-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            background: #28a745;
+        }
+        
+        .scholarship-status.closed {
+            background: #dc3545;
+        }
+        
+        .scholarship-body {
+            padding: 1.5rem;
+        }
+        
+        .scholarship-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+            color: #555;
+        }
+        
+        .scholarship-detail i {
+            width: 20px;
+        }
+        
+        .progress-container {
+            margin: 1rem 0;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            border-radius: 4px;
+        }
+        
+        .scholarship-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .applications-count {
+            background: #f0f7ff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            color: #1e3c72;
+            font-weight: 500;
+        }
+        
+        /* Applications Table */
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .table-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-bottom: 2px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .filter-tab {
+            padding: 0.5rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-tab:hover, .filter-tab.active {
+            background: #1e3c72;
+            color: white;
+            border-color: #1e3c72;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table th {
+            background: #1e3c72;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        table td {
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        table tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        /* Chart Section */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .chart-header h3 {
+            color: #1e3c72;
+        }
+        
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 1rem;
+            height: 200px;
+        }
+        
+        .bar-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .bar {
+            width: 40px;
+            background: linear-gradient(180deg, #1e3c72, #2a5298);
+            border-radius: 8px 8px 0 0;
+            transition: height 0.3s;
+        }
+        
+        /* Recent Activity */
+        .activity-feed {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: #f0f7ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .activity-details {
+            flex: 1;
+        }
+        
+        .activity-text {
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+        
+        .activity-time {
+            color: #999;
+            font-size: 0.8rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .provider-header h1 {
+                font-size: 2rem;
+            }
+            
+            .welcome-banner {
+                margin: 1rem;
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .provider-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .stats-row {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-container {
+                overflow-x: auto;
+            }
+            
+            .filter-tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span>🇮🇳  Scholarship Portal (Provider Panel)</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="provider_dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="create_scholarship.html">Create</a></li>
+                <li><a href="manage_scholarships.html">Manage</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="provider-container">
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="spinner"></div>
+
+        <!-- Header -->
+        <div class="provider-header">
+            <h1>💼 Provider Dashboard</h1>
+            <p>Manage your scholarship programs and track applications</p>
+        </div>
+
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+            <div class="provider-info">
+                <div class="provider-logo">🏛️</div>
+                <div class="provider-details">
+                    <h2>Education Foundation of India</h2>
+                    <p>Ministry of Education • Registered since 2020</p>
+                    <span class="verified-badge">
+                        <span>✓</span> Verified Provider
+                    </span>
+                </div>
+            </div>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="number">₹50L+</div>
+                    <div class="label">Total Funded</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">500+</div>
+                    <div class="label">Students Benefited</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">4.8</div>
+                    <div class="label">Rating</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📋</div>
+                <div class="stat-details">
+                    <h3>Total Scholarships</h3>
+                    <div class="stat-number">12</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📝</div>
+                <div class="stat-details">
+                    <h3>Active Applications</h3>
+                    <div class="stat-number">156</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-details">
+                    <h3>Pending Review</h3>
+                    <div class="stat-number">43</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-details">
+                    <h3>Approved</h3>
+                    <div class="stat-number">89</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-details">
+                    <h3>Total Disbursed</h3>
+                    <div class="stat-number">₹12.5L</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Action Cards -->
+        <div class="action-grid">
+            <div class="action-card" onclick="window.location.href='create_scholarship.html'">
+                <div class="action-icon">➕</div>
+                <h3>Create New Scholarship</h3>
+                <p>Launch a new scholarship program for students</p>
+                <button class="btn btn-primary">Create Now →</button>
+            </div>
+            <div class="action-card" onclick="window.location.href='manage_scholarships.html'">
+                <div class="action-icon">📋</div>
+                <h3>Manage Scholarships</h3>
+                <p>Edit, update or close existing scholarships</p>
+                <button class="btn btn-primary">Manage →</button>
+            </div>
+            <div class="action-card" onclick="window.location.href='scholarship_applications.html'">
+                <div class="action-icon">👥</div>
+                <h3>View Applications</h3>
+                <p>Review and process student applications</p>
+                <button class="btn btn-primary">View All →</button>
+            </div>
+            <div class="action-card" onclick="generateReport()">
+                <div class="action-icon">📊</div>
+                <h3>Generate Report</h3>
+                <p>Download detailed reports and analytics</p>
+                <button class="btn btn-primary">Generate →</button>
+            </div>
+        </div>
+
+        <!-- Active Scholarships Section -->
+        <div class="section-header">
+            <h2>
+                <span>🎓</span> Active Scholarships
+            </h2>
+            <button class="btn btn-secondary" onclick="window.location.href='manage_scholarships.html'">View All →</button>
+        </div>
+
+        <div class="scholarships-grid">
+            <!-- Scholarship Card 1 -->
+            <div class="scholarship-card">
+                <div class="scholarship-header">
+                    <h3>Merit cum Means Scholarship</h3>
+                    <span class="scholarship-status">Active</span>
+                </div>
+                <div class="scholarship-body">
+                    <div class="scholarship-detail">
+                        <i>💰</i> <span>Award: ₹50,000 per year</span>
+                    </div>
+                    <div class="scholarship-detail">
+                        <i>📅</i> <span>Deadline: 30 Sept 2024</span>
+                    </div>
+                    <div class="scholarship-detail">
+                        <i>👥</i> <span>Total Seats: 100</span>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Applications Received</span>
+                            <span>78/100</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 78%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="scholarship-footer">
+                        <span class="applications-count">78 Applications</span>
+                        <button class="btn btn-primary btn-small" onclick="viewScholarship(1)">View Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scholarship Card 2 -->
+            <div class="scholarship-card">
+                <div class="scholarship-header">
+                    <h3>Girl Child Scholarship</h3>
+                    <span class="scholarship-status">Active</span>
+                </div>
+                <div class="scholarship-body">
+                    <div class="scholarship-detail">
+                        <i>💰</i> <span>Award: ₹30,000 per year</span>
+                    </div>
+                    <div class="scholarship-detail">
+                        <i>📅</i> <span>Deadline: 15 Oct 2024</span>
+                    </div>
+                    <div class="scholarship-detail">
+                        <i>👥</i> <span>Total Seats: 50</span>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Applications Received</span>
+                            <span>42/50</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 84%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="scholarship-footer">
+                        <span class="applications-count">42 Applications</span>
+                        <button class="btn btn-primary btn-small" onclick="viewScholarship(2)">View Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scholarship Card 3 -->
+            <div class="scholarship-card">
+                <div class="scholarship-header">
+                    <h3>SC/ST Scholarship</h3>
+                    <span class="scholarship-status">Active</span>
+                </div>
+                <div class="scholarship-body">
+                    <div class="scholarship-detail">
+                        <i>💰</i> <span>Full Tuition Fee</span>
+                    </div>
+                    <div class="scholarship-detail">
+                        <i>📅</i> <span>Deadline: 20 Oct 2024</span>
+                    </div>
+                    <div class="scholarship-detail">
+                        <i>👥</i> <span>Total Seats: 75</span>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Applications Received</span>
+                            <span>45/75</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="scholarship-footer">
+                        <span class="applications-count">45 Applications</span>
+                        <button class="btn btn-primary btn-small" onclick="viewScholarship(3)">View Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scholarship Card 4 -->
+            <div class="scholarship-card">
+                <div class="scholarship-header">
+                    <h3>Sports Scholarship</h3>
+                    <span class="scholarship-status">Active</span>
+                </div>
+                <div class="scholarship-body">
+                    <div class="scholarship-detail">
+                        <i>💰</i> <span>Award: ₹25,000 per year</span>
+                    </div>
+                    <div class="scholarship-detail">
+                        <i>📅</i> <span>Deadline: 25 Oct 2024</span>
+                    </div>
+                    <div class="scholarship-detail">
+                        <i>👥</i> <span>Total Seats: 30</span>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Applications Received</span>
+                            <span>28/30</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 93%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="scholarship-footer">
+                        <span class="applications-count">28 Applications</span>
+                        <button class="btn btn-primary btn-small" onclick="viewScholarship(4)">View Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-grid">
+            <!-- Applications by Scholarship Chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>📊 Applications by Scholarship</h3>
+                    <select onchange="updateChart(this)">
+                        <option>This Month</option>
+                        <option>This Quarter</option>
+                        <option>This Year</option>
+                    </select>
+                </div>
+                <div class="chart-bars">
+                    <div class="bar-container">
+                        <div class="bar" style="height: 160px;"></div>
+                        <span>Merit</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" style="height: 140px;"></div>
+                        <span>Girl Child</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" style="height: 120px;"></div>
+                        <span>SC/ST</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" style="height: 100px;"></div>
+                        <span>Sports</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" style="height: 80px;"></div>
+                        <span>Minority</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Application Status Distribution -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>📈 Application Status</h3>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 2rem; padding: 1rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; color: #ffc107;">43</div>
+                        <div>Pending</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; color: #1e3c72;">24</div>
+                        <div>Under Review</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; color: #28a745;">89</div>
+                        <div>Approved</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Applications Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <h2>📝 Recent Applications</h2>
+                <div class="filter-tabs">
+                    <span class="filter-tab active" onclick="filterApplications('all')">All</span>
+                    <span class="filter-tab" onclick="filterApplications('pending')">Pending</span>
+                    <span class="filter-tab" onclick="filterApplications('approved')">Approved</span>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Application ID</th>
+                        <th>Student Name</th>
+                        <th>Scholarship</th>
+                        <th>Applied Date</th>
+                        <th>Risk Score</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>APP001</strong></td>
+                        <td>Rahul Sharma</td>
+                        <td>Merit cum Means</td>
+                        <td>15-09-2024</td>
+                        <td><span class="risk-score risk-low">Low</span></td>
+                        <td><span class="status-badge status-review">Under Review</span></td>
+                        <td><button class="btn btn-primary btn-small" onclick="viewApplication('APP001')">View</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>APP002</strong></td>
+                        <td>Priya Patel</td>
+                        <td>Girl Child</td>
+                        <td>10-09-2024</td>
+                        <td><span class="risk-score risk-low">Low</span></td>
+                        <td><span class="status-badge status-approved">Approved</span></td>
+                        <td><button class="btn btn-primary btn-small" onclick="viewApplication('APP002')">View</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>APP003</strong></td>
+                        <td>Mohammed Khan</td>
+                        <td>SC/ST</td>
+                        <td>05-09-2024</td>
+                        <td><span class="risk-score risk-high">High</span></td>
+                        <td><span class="status-badge status-rejected">Rejected</span></td>
+                        <td><button class="btn btn-primary btn-small" onclick="viewApplication('APP003')">View</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>APP004</strong></td>
+                        <td>Lakshmi Reddy</td>
+                        <td>Sports</td>
+                        <td>12-09-2024</td>
+                        <td><span class="risk-score risk-medium">Medium</span></td>
+                        <td><span class="status-badge status-review">Under Review</span></td>
+                        <td><button class="btn btn-primary btn-small" onclick="viewApplication('APP004')">View</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>APP005</strong></td>
+                        <td>Suresh Yadav</td>
+                        <td>Merit cum Means</td>
+                        <td>18-09-2024</td>
+                        <td><span class="risk-score risk-medium">Medium</span></td>
+                        <td><span class="status-badge status-pending">Pending</span></td>
+                        <td><button class="btn btn-primary btn-small" onclick="viewApplication('APP005')">View</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Recent Activity & Notifications -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <!-- Recent Activity -->
+            <div class="activity-feed">
+                <h3 style="color: #1e3c72; margin-bottom: 1rem;">🔄 Recent Activity</h3>
+                <div class="activity-item">
+                    <div class="activity-icon">📝</div>
+                    <div class="activity-details">
+                        <div class="activity-text">New application received for Merit Scholarship</div>
+                        <div class="activity-time">5 minutes ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">✅</div>
+                    <div class="activity-details">
+                        <div class="activity-text">Application APP002 approved</div>
+                        <div class="activity-time">1 hour ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">📊</div>
+                    <div class="activity-details">
+                        <div class="activity-text">Monthly report generated</div>
+                        <div class="activity-time">3 hours ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">✏️</div>
+                    <div class="activity-details">
+                        <div class="activity-text">Scholarship deadline updated for Girl Child scholarship</div>
+                        <div class="activity-time">5 hours ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="activity-feed">
+                <h3 style="color: #1e3c72; margin-bottom: 1rem;">🔔 Notifications</h3>
+                <div class="activity-item">
+                    <div class="activity-icon">⚠️</div>
+                    <div class="activity-details">
+                        <div class="activity-text">Merit scholarship reaching capacity - 78/100 filled</div>
+                        <div class="activity-time">30 minutes ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">⏰</div>
+                    <div class="activity-details">
+                        <div class="activity-text">Deadline approaching: Merit Scholarship (5 days left)</div>
+                        <div class="activity-time">1 hour ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">📋</div>
+                    <div class="activity-details">
+                        <div class="activity-text">43 applications pending review</div>
+                        <div class="activity-time">3 hours ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">✅</div>
+                    <div class="activity-details">
+                        <div class="activity-text">Profile verification completed</div>
+                        <div class="activity-time">1 day ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024  Scholarship Portal - Government of India (Provider Panel)</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // View scholarship details
+        function viewScholarship(id) {
+            window.location.href = `manage_scholarships.html?id=${id}`;
+        }
+
+        // View application
+        function viewApplication(id) {
+            window.location.href = `scholarship_applications.html?app=${id}`;
+        }
+
+        // Generate report
+        function generateReport() {
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                showAlert('Report generated successfully! Downloading...', 'success');
+            }, 2000);
+        }
+
+        // Filter applications
+        function filterApplications(filter) {
+            const tabs = document.querySelectorAll('.filter-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            showAlert(`Showing ${filter} applications`, 'info');
+        }
+
+        // Update chart
+        function updateChart(select) {
+            showAlert(`Chart updated: ${select.value}`, 'success');
+        }
+
+        // Show alert
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '20px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.style.minWidth = '300px';
+            alertDiv.textContent = message;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            showAlert('Welcome to Provider Dashboard!', 'success');
+        });
+    </script>
+</body>
+</html>

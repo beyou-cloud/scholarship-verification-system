@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Upload -  Scholarship Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Additional styles for upload page */
+        .upload-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        /* Header */
+        .upload-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .upload-header::before {
+            content: "🇮🇳";
+            position: absolute;
+            right: 20px;
+            bottom: -20px;
+            font-size: 120px;
+            opacity: 0.1;
+            transform: rotate(-10deg);
+        }
+        
+        .upload-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #ff9933;
+        }
+        
+        .upload-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        /* Upload Stats */
+        .upload-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: -2rem 2rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            border-bottom: 4px solid #1e3c72;
+        }
+        
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        
+        .stat-card .label {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        /* Main Upload Card */
+        .upload-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+        
+        /* Document Categories */
+        .document-categories {
+            display: flex;
+            border-bottom: 2px solid #eee;
+            background: #f8f9fa;
+            padding: 0 1rem;
+            overflow-x: auto;
+        }
+        
+        .category-tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .category-tab:hover {
+            color: #1e3c72;
+        }
+        
+        .category-tab.active {
+            color: #1e3c72;
+            border-bottom-color: #1e3c72;
+            background: white;
+        }
+        
+        .category-tab .count {
+            background: #e9ecef;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+        
+        /* Upload Area */
+        .upload-area-main {
+            padding: 3rem;
+            text-align: center;
+            border: 3px dashed #1e3c72;
+            margin: 2rem;
+            border-radius: 15px;
+            background: #f0f7ff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-area-main:hover {
+            background: #e6f0ff;
+            border-color: #ff9933;
+            transform: scale(1.02);
+        }
+        
+        .upload-area-main.dragover {
+            background: #d4e4ff;
+            border-color: #28a745;
+        }
+        
+        .upload-icon-large {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .upload-text h3 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .upload-text p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .file-types {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .file-types span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        /* Document Grid */
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+        }
+        
+        .document-item {
+            background: white;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .document-item:hover {
+            border-color: #1e3c72;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+        }
+        
+        .document-item.uploaded {
+            border-color: #28a745;
+            background: #f0fff4;
+        }
+        
+        .document-item.required {
+            border-left: 4px solid #dc3545;
+        }
+        
+        .document-header {
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .document-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        
+        .document-info {
+            flex: 1;
+        }
+        
+        .document-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+        
+        .document-subtitle {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .document-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .badge-required {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .badge-optional {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .badge-uploaded {
+            background: #28a745;
+            color: white;
+        }
+        
+        .document-body {
+            padding: 1.2rem;
+        }
+        
+        /* File Upload Area for each document */
+        .doc-upload-area {
+            border: 2px dashed #1e3c72;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1rem;
+            background: #f8f9fa;
+        }
+        
+        .doc-upload-area:hover {
+            background: #e9ecef;
+            border-color: #ff9933;
+        }
+        
+        .doc-upload-area i {
+            font-size: 2rem;
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+        
+        .doc-upload-area p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* File Preview */
+        .file-preview {
+            background: #e9ecef;
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .file-icon {
+            font-size: 1.5rem;
+        }
+        
+        .file-details {
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .file-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .file-actions {
+            display: flex;
+            gap: 0.3rem;
+        }
+        
+        .file-action-btn {
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        
+        .file-view {
+            background: #1e3c72;
+            color: white;
+        }
+        
+        .file-view:hover {
+            background: #2a5298;
+        }
+        
+        .file-remove {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .file-remove:hover {
+            background: #c82333;
+        }
+        
+        /* Upload Progress */
+        .upload-progress {
+            margin-top: 0.5rem;
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .upload-progress.active {
+            display: block;
+        }
+        
+        .progress-bar-upload {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            transition: width 0.3s;
+        }
+        
+        /* Upload Queue */
+        .upload-queue {
+            padding: 2rem;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .queue-title {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .queue-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .queue-item .file-icon {
+            font-size: 1.5rem;
+        }
+        
+        .queue-item .file-info {
+            flex: 1;
+        }
+        
+        .queue-item .file-name {
+            font-weight: 500;
+        }
+        
+        .queue-item .file-status {
+            font-size: 0.8rem;
+            color: #28a745;
+        }
+        
+        .queue-progress {
+            width: 150px;
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .queue-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            transition: width 0.3s;
+        }
+        
+        /* Action Buttons */
+        .upload-actions {
+            padding: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            background: white;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+        
+        /* Success Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            padding: 2rem;
+            text-align: center;
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 3rem;
+            animation: scaleIn 0.5s ease;
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            grid-column: 1 / -1;
+        }
+        
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+        
+        .empty-state h3 {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .empty-state p {
+            color: #999;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .upload-header h1 {
+                font-size: 2rem;
+            }
+            
+            .upload-stats {
+                margin: 1rem;
+            }
+            
+            .document-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .upload-actions {
+                flex-direction: column;
+            }
+            
+            .btn-large {
+                width: 100%;
+            }
+            
+            .file-types {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span>🇮🇳 Scholarship Portal</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="student_dashboard.html">Dashboard</a></li>
+                <li><a href="apply.html">Apply</a></li>
+                <li><a href="upload.html" class="active">Upload</a></li>
+                <li><a href="application_status.html">Status</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="upload-container">
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="spinner"></div>
+
+        <!-- Header -->
+        <div class="upload-header">
+            <h1>📎 Document Upload Center</h1>
+            <p>Upload required documents for your scholarship applications</p>
+        </div>
+
+        <!-- Upload Stats -->
+        <div class="upload-stats">
+            <div class="stat-card">
+                <div class="number" id="totalDocs">0/12</div>
+                <div class="label">Documents Uploaded</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="pendingDocs">12</div>
+                <div class="label">Pending Uploads</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="storageUsed">0 MB</div>
+                <div class="label">Storage Used</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="applicationsLinked">3</div>
+                <div class="label">Applications Linked</div>
+            </div>
+        </div>
+
+        <!-- Main Upload Card -->
+        <div class="upload-card">
+            <!-- Document Categories -->
+            <div class="document-categories">
+                <div class="category-tab active" onclick="switchCategory('all')">
+                    All Documents <span class="count" id="allCount">12</span>
+                </div>
+                <div class="category-tab" onclick="switchCategory('required')">
+                    Required <span class="count" id="requiredCount">8</span>
+                </div>
+                <div class="category-tab" onclick="switchCategory('optional')">
+                    Optional <span class="count" id="optionalCount">4</span>
+                </div>
+                <div class="category-tab" onclick="switchCategory('uploaded')">
+                    Uploaded <span class="count" id="uploadedCount">0</span>
+                </div>
+            </div>
+
+            <!-- Main Upload Area (Drag & Drop) -->
+            <div class="upload-area-main" id="dropZone" onclick="triggerMainUpload()">
+                <div class="upload-icon-large">📎</div>
+                <div class="upload-text">
+                    <h3>Drag & Drop Files Here</h3>
+                    <p>or click to browse</p>
+                </div>
+                <div class="file-types">
+                    <span>📄 PDF (Max 5MB)</span>
+                    <span>🖼️ JPG/PNG (Max 2MB)</span>
+                    <span>📝 DOC/DOCX (Max 3MB)</span>
+                </div>
+            </div>
+
+            <!-- Document Grid -->
+            <div class="document-grid" id="documentGrid">
+                <!-- Documents will be loaded here via JavaScript -->
+            </div>
+
+            <!-- Upload Queue -->
+            <div class="upload-queue" id="uploadQueue" style="display: none;">
+                <div class="queue-title">
+                    <span>⏳</span> Upload Queue (<span id="queueCount">0</span>)
+                </div>
+                <div id="queueItems"></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="upload-actions">
+                <button class="btn btn-secondary btn-large" onclick="clearAll()">Clear All</button>
+                <button class="btn btn-primary btn-large" onclick="uploadAll()" id="uploadAllBtn">
+                    <span>Upload All (0)</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Information Section -->
+        <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+            <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h3 style="color: #1e3c72; margin-bottom: 1rem;">📋 Document Guidelines</h3>
+                <ul style="list-style: none; color: #666;">
+                    <li style="margin-bottom: 0.5rem;">✓ All documents must be clear and legible</li>
+                    <li style="margin-bottom: 0.5rem;">✓ PDF files are preferred for text documents</li>
+                    <li style="margin-bottom: 0.5rem;">✓ Images must be in JPG or PNG format</li>
+                    <li style="margin-bottom: 0.5rem;">✓ Maximum file size: 5MB per document</li>
+                    <li style="margin-bottom: 0.5rem;">✓ Self-attested copies are acceptable</li>
+                </ul>
+            </div>
+            
+            <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h3 style="color: #1e3c72; margin-bottom: 1rem;">⚠️ Important Notes</h3>
+                <ul style="list-style: none; color: #666;">
+                    <li style="margin-bottom: 0.5rem;">• Upload only original documents</li>
+                    <li style="margin-bottom: 0.5rem;">• Expired documents will be rejected</li>
+                    <li style="margin-bottom: 0.5rem;">• You can replace documents anytime</li>
+                    <li style="margin-bottom: 0.5rem;">• Documents verified within 48 hours</li>
+                    <li style="margin-bottom: 0.5rem;">• Keep backup copies of all documents</li>
+                </ul>
+            </div>
+            
+            <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h3 style="color: #1e3c72; margin-bottom: 1rem;">📞 Need Help?</h3>
+                <p style="color: #666; margin-bottom: 0.5rem;">Contact document verification team:</p>
+                <p style="margin-bottom: 0.5rem;"><strong>Email:</strong> documents@scholarship.gov.in</p>
+                <p style="margin-bottom: 0.5rem;"><strong>Phone:</strong> 1800-123-4567 (Toll Free)</p>
+                <p><strong>Timing:</strong> Mon-Fri, 9:00 AM - 6:00 PM</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="success-icon">✓</div>
+            <h2 style="color: #28a745; margin-bottom: 1rem;">Upload Successful!</h2>
+            <p style="margin-bottom: 1rem;" id="successMessage">3 documents uploaded successfully</p>
+            <p style="margin-bottom: 2rem;">Documents will be verified within 48 hours.</p>
+            <button class="btn btn-primary" onclick="closeSuccessModal()">Continue</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024  Scholarship Portal - Government of India</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Document data
+        const documents = [
+            {
+                id: 'aadhaar',
+                name: 'Aadhaar Card',
+                type: 'Identity Proof',
+                required: true,
+                format: 'PDF, JPG, PNG',
+                maxSize: 5,
+                uploaded: false,
+                category: 'identity'
+            },
+            {
+                id: 'pan',
+                name: 'PAN Card',
+                type: 'Identity Proof',
+                required: true,
+                format: 'PDF, JPG, PNG',
+                maxSize: 2,
+                uploaded: false,
+                category: 'identity'
+            },
+            {
+                id: 'income',
+                name: 'Income Certificate',
+                type: 'Financial',
+                required: true,
+                format: 'PDF',
+                maxSize: 3,
+                uploaded: false,
+                category: 'financial'
+            },
+            {
+                id: 'bank',
+                name: 'Bank Passbook',
+                type: 'Financial',
+                required: true,
+                format: 'PDF, JPG',
+                maxSize: 3,
+                uploaded: false,
+                category: 'financial'
+            },
+            {
+                id: '10th',
+                name: '10th Marksheet',
+                type: 'Educational',
+                required: true,
+                format: 'PDF, JPG',
+                maxSize: 3,
+                uploaded: false,
+                category: 'education'
+            },
+            {
+                id: '12th',
+                name: '12th Marksheet',
+                type: 'Educational',
+                required: true,
+                format: 'PDF, JPG',
+                maxSize: 3,
+                uploaded: false,
+                category: 'education'
+            },
+            {
+                id: 'graduation',
+                name: 'Graduation Certificate',
+                type: 'Educational',
+                required: true,
+                format: 'PDF',
+                maxSize: 5,
+                uploaded: false,
+                category: 'education'
+            },
+            {
+                id: 'category',
+                name: 'Caste Certificate',
+                type: 'Category',
+                required: false,
+                format: 'PDF, JPG',
+                maxSize: 3,
+                uploaded: false,
+                category: 'category'
+            },
+            {
+                id: 'domicile',
+                name: 'Domicile Certificate',
+                type: 'Residence',
+                required: false,
+                format: 'PDF, JPG',
+                maxSize: 3,
+                uploaded: false,
+                category: 'residence'
+            },
+            {
+                id: 'photo',
+                name: 'Passport Photo',
+                type: 'Identity',
+                required: true,
+                format: 'JPG, PNG',
+                maxSize: 1,
+                uploaded: false,
+                category: 'identity'
+            },
+            {
+                id: 'signature',
+                name: 'Signature',
+                type: 'Identity',
+                required: true,
+                format: 'JPG, PNG',
+                maxSize: 1,
+                uploaded: false,
+                category: 'identity'
+            },
+            {
+                id: 'incomeDeclaration',
+                name: 'Income Declaration',
+                type: 'Financial',
+                required: false,
+                format: 'PDF',
+                maxSize: 2,
+                uploaded: false,
+                category: 'financial'
+            }
+        ];
+
+        let currentCategory = 'all';
+        let uploadQueue = [];
+        let uploadedFiles = {};
+
+        // Load documents
+        function loadDocuments() {
+            const grid = document.getElementById('documentGrid');
+            grid.innerHTML = '';
+            
+            const filteredDocs = filterDocuments(currentCategory);
+            
+            filteredDocs.forEach(doc => {
+                const docElement = createDocumentElement(doc);
+                grid.appendChild(docElement);
+            });
+            
+            updateStats();
+        }
+
+        // Create document element
+        function createDocumentElement(doc) {
+            const div = document.createElement('div');
+            div.className = `document-item ${doc.uploaded ? 'uploaded' : ''} ${doc.required ? 'required' : ''}`;
+            div.id = `doc-${doc.id}`;
+            
+            div.innerHTML = `
+                <div class="document-header">
+                    <div class="document-icon">${getDocumentIcon(doc.type)}</div>
+                    <div class="document-info">
+                        <div class="document-title">${doc.name}</div>
+                        <div class="document-subtitle">${doc.type} • ${doc.format} • Max ${doc.maxSize}MB</div>
+                    </div>
+                    <div class="document-badge ${doc.required ? 'badge-required' : 'badge-optional'}">
+                        ${doc.required ? 'Required' : 'Optional'}
+                    </div>
+                </div>
+                <div class="document-body">
+                    <div class="doc-upload-area" onclick="triggerUpload('${doc.id}')">
+                        <i>📎</i>
+                        <p>Click to upload or drag & drop</p>
+                    </div>
+                    <div id="preview-${doc.id}" class="file-preview" style="display: none;">
+                        <div class="file-icon">📄</div>
+                        <div class="file-details">
+                            <div class="file-name" id="name-${doc.id}"></div>
+                            <div class="file-meta">
+                                <span id="size-${doc.id}"></span>
+                                <span id="date-${doc.id}"></span>
+                            </div>
+                        </div>
+                        <div class="file-actions">
+                            <span class="file-action-btn file-view" onclick="viewFile('${doc.id}')">👁️</span>
+                            <span class="file-action-btn file-remove" onclick="removeFile('${doc.id}')">✕</span>
+                        </div>
+                    </div>
+                    <div class="upload-progress" id="progress-${doc.id}">
+                        <div class="progress-bar-upload" id="progressBar-${doc.id}"></div>
+                    </div>
+                </div>
+            `;
+            
+            return div;
+        }
+
+        // Get document icon
+        function getDocumentIcon(type) {
+            const icons = {
+                'Identity Proof': '🆔',
+                'Financial': '💰',
+                'Educational': '🎓',
+                'Category': '📋',
+                'Residence': '🏠',
+                'Identity': '👤'
+            };
+            return icons[type] || '📄';
+        }
+
+        // Filter documents by category
+        function filterDocuments(category) {
+            switch(category) {
+                case 'required':
+                    return documents.filter(d => d.required);
+                case 'optional':
+                    return documents.filter(d => !d.required);
+                case 'uploaded':
+                    return documents.filter(d => d.uploaded);
+                default:
+                    return documents;
+            }
+        }
+
+        // Switch category
+        function switchCategory(category) {
+            currentCategory = category;
+            
+            // Update active tab
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadDocuments();
+        }
+
+        // Trigger file upload
+        function triggerUpload(docId) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf,.jpg,.jpeg,.png,.doc,.docx';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    addToQueue(docId, file);
+                }
+            };
+            input.click();
+        }
+
+        // Trigger main upload
+        function triggerMainUpload() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.multiple = true;
+            input.accept = '.pdf,.jpg,.jpeg,.png,.doc,.docx';
+            input.onchange = (e) => {
+                const files = Array.from(e.target.files);
+                files.forEach((file, index) => {
+                    setTimeout(() => {
+                        const docId = findMatchingDocument(file.name);
+                        if (docId) {
+                            addToQueue(docId, file);
+                        }
+                    }, index * 100);
+                });
+            };
+            input.click();
+        }
+
+        // Find matching document based on filename
+        function findMatchingDocument(filename) {
+            filename = filename.toLowerCase();
+            const matches = {
+                'aadhaar': 'aadhaar',
+                'pan': 'pan',
+                'income': 'income',
+                'bank': 'bank',
+                '10th': '10th',
+                '12th': '12th',
+                'graduation': 'graduation',
+                'caste': 'category',
+                'domicile': 'domicile',
+                'photo': 'photo',
+                'signature': 'signature'
+            };
+            
+            for (let [key, value] of Object.entries(matches)) {
+                if (filename.includes(key)) {
+                    return value;
+                }
+            }
+            return null;
+        }
+
+        // Add to upload queue
+        function addToQueue(docId, file) {
+            // Check file size
+            if (file.size > 5 * 1024 * 1024) {
+                showAlert('File size too large! Maximum 5MB allowed.', 'error');
+                return;
+            }
+            
+            uploadQueue.push({
+                id: docId,
+                file: file,
+                progress: 0,
+                status: 'pending'
+            });
+            
+            updateQueue();
+            startUpload(docId);
+        }
+
+        // Start upload
+        function startUpload(docId) {
+            const progressBar = document.getElementById(`progressBar-${docId}`);
+            const progress = document.getElementById(`progress-${docId}`);
+            
+            if (progress && progressBar) {
+                progress.classList.add('active');
+                
+                let width = 0;
+                const interval = setInterval(() => {
+                    width += 10;
+                    progressBar.style.width = width + '%';
+                    
+                    if (width >= 100) {
+                        clearInterval(interval);
+                        setTimeout(() => {
+                            completeUpload(docId);
+                        }, 500);
+                    }
+                }, 200);
+            }
+        }
+
+        // Complete upload
+        function completeUpload(docId) {
+            const doc = documents.find(d => d.id === docId);
+            if (doc) {
+                doc.uploaded = true;
+                
+                // Update preview
+                document.getElementById(`preview-${docId}`).style.display = 'flex';
+                document.getElementById(`name-${docId}`).textContent = 'document.pdf';
+                document.getElementById(`size-${docId}`).textContent = '2.3 MB';
+                document.getElementById(`date-${docId}`).textContent = new Date().toLocaleDateString();
+                
+                // Update document item
+                document.getElementById(`doc-${docId}`).classList.add('uploaded');
+                
+                // Remove from queue
+                uploadQueue = uploadQueue.filter(item => item.id !== docId);
+                
+                updateStats();
+                updateQueue();
+                
+                showAlert(`${doc.name} uploaded successfully!`, 'success');
+            }
+        }
+
+        // Update queue display
+        function updateQueue() {
+            const queueContainer = document.getElementById('queueItems');
+            const queueSection = document.getElementById('uploadQueue');
+            const queueCount = document.getElementById('queueCount');
+            
+            if (uploadQueue.length > 0) {
+                queueSection.style.display = 'block';
+                queueCount.textContent = uploadQueue.length;
+                
+                queueContainer.innerHTML = '';
+                uploadQueue.forEach(item => {
+                    const queueItem = document.createElement('div');
+                    queueItem.className = 'queue-item';
+                    queueItem.innerHTML = `
+                        <div class="file-icon">📄</div>
+                        <div class="file-info">
+                            <div class="file-name">${item.file.name}</div>
+                            <div class="file-status">Uploading...</div>
+                        </div>
+                        <div class="queue-progress">
+                            <div class="queue-progress-fill" style="width: ${item.progress}%"></div>
+                        </div>
+                    `;
+                    queueContainer.appendChild(queueItem);
+                });
+            } else {
+                queueSection.style.display = 'none';
+            }
+            
+            // Update upload all button
+            document.getElementById('uploadAllBtn').innerHTML = `<span>Upload All (${uploadQueue.length})</span>`;
+        }
+
+        // Upload all
+        function uploadAll() {
+            if (uploadQueue.length === 0) {
+                showAlert('No files to upload', 'warning');
+                return;
+            }
+            
+            uploadQueue.forEach(item => {
+                startUpload(item.id);
+            });
+        }
+
+        // Remove file
+        function removeFile(docId) {
+            const doc = documents.find(d => d.id === docId);
+            if (doc) {
+                doc.uploaded = false;
+                
+                document.getElementById(`preview-${docId}`).style.display = 'none';
+                document.getElementById(`doc-${docId}`).classList.remove('uploaded');
+                document.getElementById(`progress-${docId}`).classList.remove('active');
+                
+                updateStats();
+                showAlert(`${doc.name} removed`, 'warning');
+            }
+        }
+
+        // View file
+        function viewFile(docId) {
+            showAlert('Opening file preview...', 'info');
+        }
+
+        // Clear all
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all uploaded files?')) {
+                documents.forEach(doc => {
+                    if (doc.uploaded) {
+                        doc.uploaded = false;
+                        const preview = document.getElementById(`preview-${doc.id}`);
+                        if (preview) {
+                            preview.style.display = 'none';
+                        }
+                        document.getElementById(`doc-${doc.id}`).classList.remove('uploaded');
+                    }
+                });
+                
+                updateStats();
+                showAlert('All files cleared', 'warning');
+            }
+        }
+
+        // Update statistics
+        function updateStats() {
+            const uploaded = documents.filter(d => d.uploaded).length;
+            const total = documents.length;
+            const pending = total - uploaded;
+            
+            document.getElementById('totalDocs').textContent = `${uploaded}/${total}`;
+            document.getElementById('pendingDocs').textContent = pending;
+            document.getElementById('uploadedCount').textContent = uploaded;
+            
+            // Update storage used (simulated)
+            const storageUsed = uploaded * 2.5; // Average 2.5MB per file
+            document.getElementById('storageUsed').textContent = storageUsed.toFixed(1) + ' MB';
+        }
+
+        // Show success modal
+        function showSuccessModal(count) {
+            document.getElementById('successMessage').textContent = `${count} document(s) uploaded successfully`;
+            document.getElementById('successModal').classList.add('active');
+        }
+
+        // Close success modal
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        // Show alert
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '20px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.style.minWidth = '300px';
+            alertDiv.textContent = message;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+
+        // Drag and drop functionality
+        const dropZone = document.getElementById('dropZone');
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            
+            const files = Array.from(e.dataTransfer.files);
+            files.forEach((file, index) => {
+                setTimeout(() => {
+                    const docId = findMatchingDocument(file.name);
+                    if (docId) {
+                        addToQueue(docId, file);
+                    } else {
+                        showAlert(`Could not match ${file.name} to any document type`, 'error');
+                    }
+                }, index * 100);
+            });
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDocuments();
+            
+            // Auto-upload some demo files
+            setTimeout(() => {
+                const demoDocs = ['aadhaar', 'pan', '10th', '12th'];
+                demoDocs.forEach((docId, index) => {
+                    setTimeout(() => {
+                        const mockFile = { name: docId + '.pdf', size: 2.1 * 1024 * 1024 };
+                        addToQueue(docId, mockFile);
+                    }, index * 1000);
+                });
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

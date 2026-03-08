@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Scholarship -   Scholarship Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Additional styles for application page */
+        .apply-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .application-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Scholarship Info Banner */
+        .scholarship-info {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .scholarship-info::before {
+            content: "🇮🇳";
+            position: absolute;
+            right: 20px;
+            bottom: -20px;
+            font-size: 120px;
+            opacity: 0.1;
+            transform: rotate(-10deg);
+        }
+        
+        .scholarship-info h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #ff9933;
+        }
+        
+        .scholarship-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .scholarship-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+        
+        /* Progress Bar */
+        .progress-section {
+            padding: 2rem;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #ddd;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .step {
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+            color: #666;
+            position: relative;
+            z-index: 2;
+            border: 2px solid #ddd;
+        }
+        
+        .step.active {
+            background: #1e3c72;
+            color: white;
+            border-color: #1e3c72;
+        }
+        
+        .step.completed {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            width: 33%;
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+        
+        /* Form Sections */
+        .form-section {
+            padding: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-title {
+            color: #1e3c72;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-title span {
+            background: #1e3c72;
+            color: white;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.9rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group label .required {
+            color: #dc3545;
+            margin-left: 0.2rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30,60,114,0.1);
+        }
+        
+        .form-group input.error,
+        .form-group select.error,
+        .form-group textarea.error {
+            border-color: #dc3545;
+        }
+        
+        .form-group input.valid,
+        .form-group select.valid,
+        .form-group textarea.valid {
+            border-color: #28a745;
+        }
+        
+        .input-hint {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.3rem;
+        }
+        
+        /* Document Upload Area */
+        .document-section {
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+        
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .document-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 2px solid #eee;
+            transition: all 0.3s;
+        }
+        
+        .document-card:hover {
+            border-color: #1e3c72;
+            transform: translateY(-3px);
+        }
+        
+        .document-card.uploaded {
+            border-color: #28a745;
+            background: #f0fff4;
+        }
+        
+        .document-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .document-icon {
+            font-size: 2rem;
+        }
+        
+        .document-title {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .document-subtitle {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .upload-area {
+            border: 2px dashed #1e3c72;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 1rem 0;
+        }
+        
+        .upload-area:hover {
+            background: #f0f7ff;
+            border-color: #ff9933;
+        }
+        
+        .upload-area i {
+            font-size: 2rem;
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+        
+        .file-preview {
+            background: #e9ecef;
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-top: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .file-name {
+            font-size: 0.9rem;
+            color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 200px;
+        }
+        
+        .file-size {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .remove-file {
+            color: #dc3545;
+            cursor: pointer;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .remove-file:hover {
+            background: #dc3545;
+            color: white;
+        }
+        
+        /* Declaration Section */
+        .declaration-section {
+            padding: 2rem;
+        }
+        
+        .declaration-item {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        
+        .declaration-item input[type="checkbox"] {
+            margin-top: 0.2rem;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .declaration-text {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .declaration-text a {
+            color: #1e3c72;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .declaration-text a:hover {
+            text-decoration: underline;
+            color: #ff9933;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            padding: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            min-width: 150px;
+        }
+        
+        /* Preview Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        .preview-row {
+            display: flex;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .preview-label {
+            width: 150px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .preview-value {
+            flex: 1;
+            color: #666;
+        }
+        
+        /* Success Animation */
+        .success-animation {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 3rem;
+            animation: scaleIn 0.5s ease;
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .scholarship-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn-large {
+                width: 100%;
+            }
+            
+            .progress-steps {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+            
+            .progress-steps::before {
+                display: none;
+            }
+            
+            .step {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span>🇮🇳  Scholarship Portal</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="student_dashboard.html">Dashboard</a></li>
+                <li><a href="apply.html" class="active">Apply</a></li>
+                <li><a href="upload.html">Upload</a></li>
+                <li><a href="application_status.html">Status</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="apply-container">
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="spinner"></div>
+
+        <!-- Main Application Card -->
+        <div class="application-card">
+            <!-- Scholarship Info Banner -->
+            <div class="scholarship-info">
+                <h2> Merit Scholarship 2024</h2>
+                <p>Government of India - Ministry of Education</p>
+                <div class="scholarship-meta">
+                    
+                    <div class="scholarship-meta-item">
+                        <span>📅</span> Deadline: 30 Sept 2024
+                    </div>
+                    <div class="scholarship-meta-item">
+                        <span>👥</span> Total Applications: 1,234
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-section">
+                <div class="progress-steps">
+                    <div class="step active">1. Personal Details</div>
+                    <div class="step">2. Educational Details</div>
+                    <div class="step">3. Documents</div>
+                    <div class="step">4. Review & Submit</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 25%;"></div>
+                </div>
+            </div>
+
+            <!-- Application Form -->
+            <form id="applicationForm">
+                <!-- Personal Details Section -->
+                <div class="form-section" id="personalDetails">
+                    <div class="section-title">
+                        <span>1</span> Personal Details
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name <span class="required">*</span></label>
+                            <input type="text" id="fullName" placeholder="Enter your full name">
+                            <div class="input-hint">As per Aadhaar card</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Date of Birth <span class="required">*</span></label>
+                            <input type="date" id="dob">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Aadhaar Number <span class="required">*</span></label>
+                            <input type="text" id="aadhaar" maxlength="12" >
+                            <div class="input-hint">Enter 12 digits without spaces</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Mobile Number <span class="required">*</span></label>
+                            <input type="tel" id="mobile" maxlength="10">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" placeholder="Enter your email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <select id="gender">
+                                <option value="male" selected>Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Permanent Address</label>
+                        <textarea id="address" rows="3" placeholder="Enter your permanent address"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>State</label>
+                            <select id="state">
+<option value="">Select State</option>
+<option value="andhra_pradesh">Andhra Pradesh</option>
+<option value="arunachal_pradesh">Arunachal Pradesh</option>
+<option value="assam">Assam</option>
+<option value="bihar">Bihar</option>
+<option value="chhattisgarh">Chhattisgarh</option>
+<option value="delhi">Delhi</option>
+<option value="goa">Goa</option>
+<option value="gujarat">Gujarat</option>
+<option value="haryana">Haryana</option>
+<option value="himachal_pradesh">Himachal Pradesh</option>
+<option value="jharkhand">Jharkhand</option>
+<option value="karnataka">Karnataka</option>
+<option value="kerala">Kerala</option>
+<option value="madhya_pradesh">Madhya Pradesh</option>
+<option value="maharashtra">Maharashtra</option>
+<option value="manipur">Manipur</option>
+<option value="meghalaya">Meghalaya</option>
+<option value="mizoram">Mizoram</option>
+<option value="nagaland">Nagaland</option>
+<option value="odisha">Odisha</option>
+<option value="punjab">Punjab</option>
+<option value="rajasthan">Rajasthan</option>
+<option value="sikkim">Sikkim</option>
+<option value="tamil_nadu">Tamil Nadu</option>
+<option value="telangana">Telangana</option>
+<option value="tripura">Tripura</option>
+<option value="uttar_pradesh">Uttar Pradesh</option>
+<option value="uttarakhand">Uttarakhand</option>
+<option value="west_bengal">West Bengal</option>
+</select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Pincode</label>
+                            <input type="text" id="pincode" maxlength="6" placeholder="6-digit pincode">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="category">
+                                <option value="general" selected>General</option>
+                                <option value="obc">OBC</option>
+                                <option value="sc">SC</option>
+                                <option value="st">ST</option>
+                                <option value="ews">EWS</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Annual Family Income (₹) <span class="required">*</span></label>
+                            <input type="number" id="income" placeholder="Enter annual income">
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons" style="padding: 1rem 0 0;">
+                        <button type="button" class="btn btn-primary" onclick="nextSection('educationalDetails')">Save & Continue →</button>
+                    </div>
+                </div>
+
+                <!-- Educational Details Section -->
+                <div class="form-section" id="educationalDetails" style="display: none;">
+                    <div class="section-title">
+                        <span>2</span> Educational Details
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Highest Qualification <span class="required">*</span></label>
+                        <select id="qualification">
+                            <option value="12th" selected>12th Standard</option>
+                            <option value="diploma">Diploma</option>
+                            <option value="ug">Undergraduate</option>
+                            <option value="pg">Postgraduate</option>
+                            <option value="phd">PhD</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Institute/College Name <span class="required">*</span></label>
+                            <input type="text" id="institute" value="Delhi University" placeholder="Enter institute name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Course Name <span class="required">*</span></label>
+                            <input type="text" id="course" value="B.Tech Computer Science" placeholder="Enter course name">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Year of Study <span class="required">*</span></label>
+                            <select id="year">
+                                <option value="1">1st Year</option>
+                                <option value="2" selected>2nd Year</option>
+                                <option value="3">3rd Year</option>
+                                <option value="4">4th Year</option>
+                             
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Enrollment/Roll Number <span class="required">*</span></label>
+                            <input type="text" id="enrollment" value="2024CS001" placeholder="Enter enrollment number">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Previous Year Percentage <span class="required">*</span></label>
+                            <input type="number" id="percentage" step="0.01" min="0" max="100" value="85.5" placeholder="Enter percentage">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Mode of Study</label>
+                            <select id="mode">
+                                <option value="fulltime" selected>Full Time</option>
+                                <option value="parttime">Part Time</option>
+                                <option value="distance">Distance Learning</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>University/Board Name</label>
+                        <input type="text" id="board" value="Delhi University" placeholder="Enter university/board name">
+                    </div>
+                    
+                    <div class="action-buttons" style="padding: 1rem 0 0; display: flex; justify-content: space-between;">
+                        <button type="button" class="btn btn-secondary" onclick="prevSection('personalDetails')">← Previous</button>
+                        <button type="button" class="btn btn-primary" onclick="nextSection('documents')">Save & Continue →</button>
+                    </div>
+                </div>
+
+                <!-- Documents Section -->
+                <div class="document-section" id="documents" style="display: none;">
+                    <div class="section-title">
+                        <span>3</span> Upload Documents
+                    </div>
+                    
+                    <div class="document-grid">
+                        <!-- Aadhaar Document -->
+                        <div class="document-card" id="docAadhaar">
+                            <div class="document-header">
+                                <div class="document-icon">🆔</div>
+                                <div>
+                                    <div class="document-title">Aadhaar Card</div>
+                                    <div class="document-subtitle">PDF, JPG, PNG (Max 2MB)</div>
+                                </div>
+                            </div>
+                            <div class="upload-area" onclick="triggerFileUpload('aadhaar')">
+                                <i>📎</i>
+                                <p>Click to upload or drag & drop</p>
+                            </div>
+                            <div id="aadhaarPreview" class="file-preview" style="display: none;">
+                                <span class="file-name" id="aadhaarName">aadhaar.pdf</span>
+                                <span class="file-size" id="aadhaarSize">2.1 MB</span>
+                                <span class="remove-file" onclick="removeFile('aadhaar')">✕</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Income Certificate -->
+                        <div class="document-card" id="docIncome">
+                            <div class="document-header">
+                                <div class="document-icon">💰</div>
+                                <div>
+                                    <div class="document-title">Income Certificate</div>
+                                    <div class="document-subtitle">PDF, JPG, PNG (Max 2MB)</div>
+                                </div>
+                            </div>
+                            <div class="upload-area" onclick="triggerFileUpload('income')">
+                                <i>📎</i>
+                                <p>Click to upload or drag & drop</p>
+                            </div>
+                            <div id="incomePreview" class="file-preview" style="display: none;">
+                                <span class="file-name" id="incomeName">income.pdf</span>
+                                <span class="file-size" id="incomeSize">1.8 MB</span>
+                                <span class="remove-file" onclick="removeFile('income')">✕</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Marksheet -->
+                        <div class="document-card" id="docMarksheet">
+                            <div class="document-header">
+                                <div class="document-icon">📄</div>
+                                <div>
+                                    <div class="document-title">Latest Marksheet</div>
+                                    <div class="document-subtitle">PDF, JPG, PNG (Max 2MB)</div>
+                                </div>
+                            </div>
+                            <div class="upload-area" onclick="triggerFileUpload('marksheet')">
+                                <i>📎</i>
+                                <p>Click to upload or drag & drop</p>
+                            </div>
+                            <div id="marksheetPreview" class="file-preview" style="display: none;">
+                                <span class="file-name" id="marksheetName">marksheet.pdf</span>
+                                <span class="file-size" id="marksheetSize">3.2 MB</span>
+                                <span class="remove-file" onclick="removeFile('marksheet')">✕</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Bank Passbook -->
+                        <div class="document-card" id="docBank">
+                            <div class="document-header">
+                                <div class="document-icon">🏦</div>
+                                <div>
+                                    <div class="document-title">Bank Passbook</div>
+                                    <div class="document-subtitle">PDF, JPG, PNG (Max 2MB)</div>
+                                </div>
+                            </div>
+                            <div class="upload-area" onclick="triggerFileUpload('bank')">
+                                <i>📎</i>
+                                <p>Click to upload or drag & drop</p>
+                            </div>
+                            <div id="bankPreview" class="file-preview" style="display: none;">
+                                <span class="file-name" id="bankName">bank.pdf</span>
+                                <span class="file-size" id="bankSize">1.5 MB</span>
+                                <span class="remove-file" onclick="removeFile('bank')">✕</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Category Certificate (if applicable) -->
+                        <div class="document-card" id="docCategory">
+                            <div class="document-header">
+                                <div class="document-icon">📋</div>
+                                <div>
+                                    <div class="document-title">Category Certificate</div>
+                                    <div class="document-subtitle">If applicable (SC/ST/OBC)</div>
+                                </div>
+                            </div>
+                            <div class="upload-area" onclick="triggerFileUpload('category')">
+                                <i>📎</i>
+                                <p>Click to upload or drag & drop</p>
+                            </div>
+                            <div id="categoryPreview" class="file-preview" style="display: none;">
+                                <span class="file-name" id="categoryName">category.pdf</span>
+                                <span class="file-size" id="categorySize">2.0 MB</span>
+                                <span class="remove-file" onclick="removeFile('category')">✕</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Passport Photo -->
+                        <div class="document-card" id="docPhoto">
+                            <div class="document-header">
+                                <div class="document-icon">📸</div>
+                                <div>
+                                    <div class="document-title">Passport Photo</div>
+                                    <div class="document-subtitle">JPG, PNG (Max 500KB)</div>
+                                </div>
+                            </div>
+                            <div class="upload-area" onclick="triggerFileUpload('photo')">
+                                <i>📎</i>
+                                <p>Click to upload or drag & drop</p>
+                            </div>
+                            <div id="photoPreview" class="file-preview" style="display: none;">
+                                <span class="file-name" id="photoName">photo.jpg</span>
+                                <span class="file-size" id="photoSize">150 KB</span>
+                                <span class="remove-file" onclick="removeFile('photo')">✕</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons" style="padding: 1rem 0 0; display: flex; justify-content: space-between;">
+                        <button type="button" class="btn btn-secondary" onclick="prevSection('educationalDetails')">← Previous</button>
+                        <button type="button" class="btn btn-primary" onclick="nextSection('review')">Review Application →</button>
+                    </div>
+                </div>
+
+                <!-- Review & Submit Section -->
+                <div class="declaration-section" id="review" style="display: none;">
+                    <div class="section-title">
+                        <span>4</span> Review & Submit
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                        <h3 style="color: #1e3c72; margin-bottom: 1rem;">📋 Application Summary</h3>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                            <div><strong>Name:</strong> Rahul Sharma</div>
+                            <div><strong>DOB:</strong> 15-05-2002</div>
+                            <div><strong>Aadhaar:</strong> 1234******12</div>
+                            <div><strong>Mobile:</strong> 98765****0</div>
+                            <div><strong>Course:</strong> B.Tech CS</div>
+                            <div><strong>Percentage:</strong> 85.5%</div>
+                            <div><strong>Income:</strong> ₹2,50,000</div>
+                            <div><strong>Category:</strong> General</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="color: #1e3c72; margin-bottom: 1rem;">📎 Uploaded Documents</h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            <span style="background: #28a745; color: white; padding: 0.3rem 0.8rem; border-radius: 20px;">✅ Aadhaar</span>
+                            <span style="background: #28a745; color: white; padding: 0.3rem 0.8rem; border-radius: 20px;">✅ Income</span>
+                            <span style="background: #28a745; color: white; padding: 0.3rem 0.8rem; border-radius: 20px;">✅ Marksheet</span>
+                            <span style="background: #28a745; color: white; padding: 0.3rem 0.8rem; border-radius: 20px;">✅ Bank</span>
+                            <span style="background: #ffc107; color: #333; padding: 0.3rem 0.8rem; border-radius: 20px;">⏳ Category</span>
+                        </div>
+                    </div>
+                    
+                    <div class="declaration-item">
+                        <input type="checkbox" id="declaration1" checked>
+                        <label for="declaration1" class="declaration-text">
+                            I hereby declare that all the information provided in this application is true and correct to the best of my knowledge.
+                        </label>
+                    </div>
+                    
+                    <div class="declaration-item">
+                        <input type="checkbox" id="declaration2" checked>
+                        <label for="declaration2" class="declaration-text">
+                            I understand that furnishing false information may lead to disqualification and legal action.
+                        </label>
+                    </div>
+                    
+                    <div class="declaration-item">
+                        <input type="checkbox" id="declaration3">
+                        <label for="declaration3" class="declaration-text">
+                            I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a> of the scholarship portal.
+                        </label>
+                    </div>
+                    
+                    <div class="action-buttons" style="padding: 1rem 0 0; display: flex; justify-content: space-between;">
+                        <button type="button" class="btn btn-secondary" onclick="prevSection('documents')">← Previous</button>
+                        <button type="button" class="btn btn-success btn-large" onclick="previewApplication()">Preview Application</button>
+                        <button type="submit" class="btn btn-primary btn-large">Submit Application</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📋 Application Preview</h2>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="preview-row">
+                    <div class="preview-label">Application ID:</div>
+                    <div class="preview-value">APP2024001 (Will be generated after submission)</div>
+                </div>
+                <div class="preview-row">
+                    <div class="preview-label">Scholarship:</div>
+                    <div class="preview-value"> Merit Scholarship 2024</div>
+                </div>
+                <div class="preview-row">
+                    <div class="preview-label">Student Name:</div>
+                    <div class="preview-value">Rahul Sharma</div>
+                </div>
+                <div class="preview-row">
+                    <div class="preview-label">Date of Birth:</div>
+                    <div class="preview-value">15-05-2002</div>
+                </div>
+                <div class="preview-row">
+                    <div class="preview-label">Aadhaar Number:</div>
+                    <div class="preview-value">1234******12</div>
+                </div>
+                <div class="preview-row">
+                    <div class="preview-label">Course:</div>
+                    <div class="preview-value">B.Tech Computer Science</div>
+                </div>
+                <div class="preview-row">
+                    <div class="preview-label">Percentage:</div>
+                    <div class="preview-value">85.5%</div>
+                </div>
+                <div class="preview-row">
+                    <div class="preview-label">Annual Income:</div>
+                    <div class="preview-value">₹2,50,000</div>
+                </div>
+                <div class="preview-row">
+                    <div class="preview-label">Documents Uploaded:</div>
+                    <div class="preview-value">
+                        <span style="color: #28a745;">✓ Aadhaar, Income, Marksheet, Bank</span>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="closeModal()">Close Preview</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="success-animation">
+                <div class="checkmark">✓</div>
+                <h2 style="color: #28a745; margin-bottom: 1rem;">Application Submitted Successfully!</h2>
+                <p style="margin-bottom: 1rem;">Your application ID is: <strong style="color: #1e3c72;">APP2024-001</strong></p>
+                <p style="margin-bottom: 2rem;">You will receive updates via email and SMS.</p>
+                <button class="btn btn-primary" onclick="goToStatus()">Track Application Status</button>
+                <button class="btn btn-secondary" onclick="goToDashboard()" style="margin-left: 1rem;">Go to Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024  Scholarship Portal - Government of India</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Navigation between sections
+        function nextSection(sectionId) {
+            // Hide all sections
+            document.getElementById('personalDetails').style.display = 'none';
+            document.getElementById('educationalDetails').style.display = 'none';
+            document.getElementById('documents').style.display = 'none';
+            document.getElementById('review').style.display = 'none';
+            
+            // Show selected section
+            document.getElementById(sectionId).style.display = 'block';
+            
+            // Update progress bar
+            updateProgress(sectionId);
+            
+            // Update step indicators
+            updateSteps(sectionId);
+        }
+        
+        function prevSection(sectionId) {
+            nextSection(sectionId);
+        }
+        
+        function updateProgress(sectionId) {
+            const progressFill = document.querySelector('.progress-fill');
+            const steps = document.querySelectorAll('.step');
+            
+            if (sectionId === 'personalDetails') {
+                progressFill.style.width = '25%';
+                updateStepActive(0);
+            } else if (sectionId === 'educationalDetails') {
+                progressFill.style.width = '50%';
+                updateStepActive(1);
+            } else if (sectionId === 'documents') {
+                progressFill.style.width = '75%';
+                updateStepActive(2);
+            } else if (sectionId === 'review') {
+                progressFill.style.width = '100%';
+                updateStepActive(3);
+            }
+        }
+        
+        function updateStepActive(index) {
+            const steps = document.querySelectorAll('.step');
+            steps.forEach((step, i) => {
+                step.classList.remove('active', 'completed');
+                if (i < index) {
+                    step.classList.add('completed');
+                } else if (i === index) {
+                    step.classList.add('active');
+                }
+            });
+        }
+        
+        // File upload handling
+        function triggerFileUpload(docType) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf,.jpg,.jpeg,.png';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    uploadFile(file, docType);
+                }
+            };
+            input.click();
+        }
+        
+        function uploadFile(file, docType) {
+            // Show loading
+            showLoading();
+            
+            setTimeout(() => {
+                hideLoading();
+                
+                // Update preview
+                document.getElementById(docType + 'Name').textContent = file.name;
+                document.getElementById(docType + 'Size').textContent = (file.size / 1024).toFixed(1) + ' KB';
+                document.getElementById(docType + 'Preview').style.display = 'flex';
+                
+                // Add uploaded class to card
+                document.getElementById('doc' + docType.charAt(0).toUpperCase() + docType.slice(1)).classList.add('uploaded');
+                
+                showAlert(file.name + ' uploaded successfully!', 'success');
+            }, 1500);
+        }
+        
+        function removeFile(docType) {
+            document.getElementById(docType + 'Preview').style.display = 'none';
+            document.getElementById('doc' + docType.charAt(0).toUpperCase() + docType.slice(1)).classList.remove('uploaded');
+            showAlert('File removed', 'warning');
+        }
+        
+        // Modal functions
+        function previewApplication() {
+            document.getElementById('previewModal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('previewModal').classList.remove('active');
+            document.getElementById('successModal').classList.remove('active');
+        }
+        
+        // Form submission
+        document.getElementById('applicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Check declaration
+            if (!document.getElementById('declaration3').checked) {
+                showAlert('Please agree to Terms and Conditions', 'error');
+                return;
+            }
+            
+            // Show loading
+            showLoading();
+            document.querySelector('.btn-primary').disabled = true;
+            
+            setTimeout(() => {
+                hideLoading();
+                document.getElementById('successModal').classList.add('active');
+            }, 2000);
+        });
+        
+        // Navigation after submission
+        function goToStatus() {
+            window.location.href = 'application_status.html';
+        }
+        
+        function goToDashboard() {
+            window.location.href = 'student_dashboard.html';
+        }
+        
+        // Validation
+        document.getElementById('aadhaar').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12);
+        });
+        
+        document.getElementById('mobile').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+        });
+        
+        document.getElementById('pincode').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);
+        });
+        
+        // Show alert
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '20px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.style.minWidth = '300px';
+            alertDiv.textContent = message;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+        
+        // Get scholarship ID from URL
+        function getScholarshipId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('scholarship');
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const scholarshipId = getScholarshipId();
+            if (scholarshipId) {
+                showAlert('Applying for scholarship ID: ' + scholarshipId, 'info');
+            }
+            
+            // Auto-fill some demo data
+            setTimeout(() => {
+                // Simulate auto-filled data
+                const docs = ['aadhaar', 'income', 'marksheet', 'bank'];
+                docs.forEach(doc => {
+                    setTimeout(() => {
+                        const mockFile = { name: doc + '.pdf', size: 2.1 * 1024 * 1024 };
+                        uploadFile(mockFile, doc);
+                    }, 500);
+                });
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

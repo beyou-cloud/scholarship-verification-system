@@ -1,0 +1,101 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Header */
+.header {
+    background-color: #0b3d91;
+    color: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h2 {
+    font-size: 20px;
+}
+
+/* Navigation */
+.navbar {
+    background-color: #f4f6f9;
+    padding: 10px 40px;
+    display: flex;
+    gap: 25px;
+    border-bottom: 1px solid #ddd;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #0b3d91;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* Main Container */
+.container {
+    padding: 40px;
+}
+
+/* Cards */
+.cards {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.card h4 {
+    margin-bottom: 10px;
+    color: #0b3d91;
+}
+
+/* Buttons */
+.btn-primary {
+    padding: 8px 15px;
+    background-color: #0b3d91;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #062b66;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #0b3d91;
+    color: white;
+}

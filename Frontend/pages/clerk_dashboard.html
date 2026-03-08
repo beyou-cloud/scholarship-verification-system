@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clerk Dashboard - Scholarship Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Additional styles for clerk dashboard */
+        .clerk-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        /* Header */
+        .clerk-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px 15px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .clerk-header::before {
+            content: "🇮🇳";
+            position: absolute;
+            right: 20px;
+            bottom: -20px;
+            font-size: 120px;
+            opacity: 0.1;
+            transform: rotate(-10deg);
+        }
+        
+        .clerk-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #ff9933;
+        }
+        
+        .clerk-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        /* Welcome Banner */
+        .welcome-banner {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: -2rem 2rem 2rem;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .clerk-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .clerk-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .clerk-details h3 {
+            color: #1e3c72;
+            margin-bottom: 0.2rem;
+        }
+        
+        .clerk-details p {
+            color: #666;
+        }
+        
+        .date-time {
+            background: #f8f9fa;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .date-time .date {
+            color: #1e3c72;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+        
+        .date-time .time {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff9933;
+        }
+        
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.3s;
+            border-left: 4px solid #1e3c72;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: #f0f7ff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #1e3c72;
+        }
+        
+        .stat-details h3 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .action-card {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #eee;
+        }
+        
+        .action-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            border-color: #1e3c72;
+        }
+        
+        .action-icon {
+            font-size: 2rem;
+        }
+        
+        .action-text h4 {
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+        
+        .action-text p {
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .filter-title {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .filter-group label {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .filter-group select, .filter-group input {
+            padding: 0.6rem;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+        
+        .filter-group select:focus, .filter-group input:focus {
+            border-color: #1e3c72;
+            outline: none;
+        }
+        
+        .filter-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+        
+        /* Applications Table */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .table-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-bottom: 2px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .table-header h2 {
+            color: #1e3c72;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .table-header .badge {
+            background: #ff9933;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table th {
+            background: #1e3c72;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 500;
+        }
+        
+        table td {
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        table tbody tr:hover {
+            background: #f8f9fa;
+            cursor: pointer;
+        }
+        
+        .priority-high {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .priority-medium {
+            background: #fff3cd;
+            color: #856404;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .priority-low {
+            background: #d4edda;
+            color: #155724;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-icon {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-icon.review {
+            background: #1e3c72;
+            color: white;
+        }
+        
+        .btn-icon.review:hover {
+            background: #2a5298;
+        }
+        
+        .btn-icon.approve {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-icon.reject {
+            background: #dc3545;
+            color: white;
+        }
+        
+        /* Workload Chart */
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .chart-header h3 {
+            color: #1e3c72;
+        }
+        
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 2rem;
+            height: 200px;
+            padding: 1rem 0;
+        }
+        
+        .bar-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .bar {
+            width: 60px;
+            background: linear-gradient(180deg, #1e3c72, #2a5298);
+            border-radius: 8px 8px 0 0;
+            transition: height 0.3s;
+            position: relative;
+        }
+        
+        .bar:hover {
+            background: linear-gradient(180deg, #2a5298, #1e3c72);
+        }
+        
+        .bar-label {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            display: none;
+        }
+        
+        .bar:hover .bar-value {
+            display: block;
+        }
+        
+        /* Recent Activity */
+        .activity-feed {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: #f0f7ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1e3c72;
+        }
+        
+        .activity-details {
+            flex: 1;
+        }
+        
+        .activity-text {
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+        
+        .activity-time {
+            color: #999;
+            font-size: 0.8rem;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+        }
+        
+        .page-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .page-btn:hover, .page-btn.active {
+            background: #1e3c72;
+            color: white;
+            border-color: #1e3c72;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .clerk-header h1 {
+                font-size: 2rem;
+            }
+            
+            .welcome-banner {
+                margin: 1rem;
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-actions {
+                flex-direction: column;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .chart-bars {
+                gap: 1rem;
+            }
+            
+            .bar {
+                width: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span>🇮🇳 Scholarship Portal (Clerk Panel)</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="clerk_dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="review_application.html">Review</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="clerk-container">
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="spinner"></div>
+
+        <!-- Header -->
+        <div class="clerk-header">
+            <h1>👨‍💼 Clerk Dashboard</h1>
+            <p>Verify and process scholarship applications</p>
+        </div>
+
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+            <div class="clerk-info">
+                <div class="clerk-avatar">👤</div>
+                <div class="clerk-details">
+                    <h3>Rajesh Kumar</h3>
+                    <p>Verification Officer • Employee ID: CLK001</p>
+                </div>
+            </div>
+            <div class="date-time">
+                <div class="date" id="currentDate"></div>
+                <div class="time" id="currentTime"></div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📋</div>
+                <div class="stat-details">
+                    <h3>Pending Review</h3>
+                    <div class="stat-number">24</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-details">
+                    <h3>In Progress</h3>
+                    <div class="stat-number">12</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-details">
+                    <h3>Approved Today</h3>
+                    <div class="stat-number">8</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">❌</div>
+                <div class="stat-details">
+                    <h3>Rejected Today</h3>
+                    <div class="stat-number">3</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-details">
+                    <h3>Avg. Processing Time</h3>
+                    <div class="stat-number">4.5 min</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <div class="action-card" onclick="window.location.href='review_application.html'">
+                <div class="action-icon">🔍</div>
+                <div class="action-text">
+                    <h4>Review Applications</h4>
+                    <p>24 pending reviews</p>
+                </div>
+            </div>
+            <div class="action-card" onclick="filterByStatus('high')">
+                <div class="action-icon">⚠️</div>
+                <div class="action-text">
+                    <h4>High Priority</h4>
+                    <p>8 urgent applications</p>
+                </div>
+            </div>
+            <div class="action-card" onclick="exportReport()">
+                <div class="action-icon">📊</div>
+                <div class="action-text">
+                    <h4>Generate Report</h4>
+                    <p>Daily verification report</p>
+                </div>
+            </div>
+            <div class="action-card" onclick="showHelp()">
+                <div class="action-icon">❓</div>
+                <div class="action-text">
+                    <h4>Help & Guidelines</h4>
+                    <p>Verification manual</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-title">
+                <span>🔍</span> Filter Applications
+            </div>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label>Status</label>
+                    <select id="statusFilter" onchange="filterApplications()">
+                        <option value="all">All Applications</option>
+                        <option value="pending">Pending Review</option>
+                        <option value="review">Under Review</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Priority</label>
+                    <select id="priorityFilter" onchange="filterApplications()">
+                        <option value="all">All Priorities</option>
+                        <option value="high">High Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="low">Low Priority</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Scholarship Type</label>
+                    <select id="typeFilter" onchange="filterApplications()">
+                        <option value="all">All Types</option>
+                        <option value="merit">Merit Based</option>
+                        <option value="need">Need Based</option>
+                        <option value="category">Category Based</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Date Range</label>
+                    <input type="date" id="dateFilter" onchange="filterApplications()">
+                </div>
+            </div>
+            <div class="filter-actions">
+                <button class="btn btn-secondary" onclick="clearFilters()">Clear Filters</button>
+                <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+            </div>
+        </div>
+
+        <!-- Applications Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <h2>
+                    <span>📋</span> Applications Pending Review
+                    <span class="badge">24 New</span>
+                </h2>
+                <div>
+                    <button class="btn btn-secondary" onclick="refreshTable()">🔄 Refresh</button>
+                    <button class="btn btn-primary" onclick="exportTable()">📥 Export</button>
+                </div>
+            </div>
+            <table id="applicationsTable">
+                <thead>
+                    <tr>
+                        <th>App ID</th>
+                        <th>Student Name</th>
+                        <th>Scholarship</th>
+                        <th>Applied Date</th>
+                        <th>Risk Score</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Table rows will be loaded here -->
+                </tbody>
+            </table>
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn">5</button>
+                <button class="page-btn">Next →</button>
+            </div>
+        </div>
+
+        <!-- Workload Chart and Activity Feed -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+            <!-- Workload Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3>📊 Weekly Workload</h3>
+                    <select onchange="updateChart()">
+                        <option>Last 7 days</option>
+                        <option>Last 30 days</option>
+                        <option>This month</option>
+                    </select>
+                </div>
+                <div class="chart-bars" id="workloadChart">
+                    <div class="bar-container">
+                        <div class="bar" style="height: 120px;">
+                            <span class="bar-value">12</span>
+                        </div>
+                        <span class="bar-label">Mon</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" style="height: 150px;">
+                            <span class="bar-value">15</span>
+                        </div>
+                        <span class="bar-label">Tue</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" style="height: 180px;">
+                            <span class="bar-value">18</span>
+                        </div>
+                        <span class="bar-label">Wed</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" style="height: 200px;">
+                            <span class="bar-value">20</span>
+                        </div>
+                        <span class="bar-label">Thu</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" style="height: 160px;">
+                            <span class="bar-value">16</span>
+                        </div>
+                        <span class="bar-label">Fri</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" style="height: 90px;">
+                            <span class="bar-value">9</span>
+                        </div>
+                        <span class="bar-label">Sat</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" style="height: 40px;">
+                            <span class="bar-value">4</span>
+                        </div>
+                        <span class="bar-label">Sun</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="activity-feed">
+                <h3 style="color: #1e3c72; margin-bottom: 1rem;">🔄 Recent Activity</h3>
+                <div id="activityFeed">
+                    <div class="activity-item">
+                        <div class="activity-icon">✅</div>
+                        <div class="activity-details">
+                            <div class="activity-text">Approved application APP002 for Priya Patel</div>
+                            <div class="activity-time">2 minutes ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">⏳</div>
+                        <div class="activity-details">
+                            <div class="activity-text">Started review of APP005 for Suresh Yadav</div>
+                            <div class="activity-time">15 minutes ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">❌</div>
+                        <div class="activity-details">
+                            <div class="activity-text">Rejected APP003 - Income criteria not met</div>
+                            <div class="activity-time">1 hour ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">📎</div>
+                        <div class="activity-details">
+                            <div class="activity-text">New documents uploaded for APP004</div>
+                            <div class="activity-time">2 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">⚠️</div>
+                        <div class="activity-details">
+                            <div class="activity-text">High priority application APP001 waiting</div>
+                            <div class="activity-time">3 hours ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Metrics -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;">
+            <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #666; margin-bottom: 0.5rem;">Accuracy Rate</h4>
+                <div style="font-size: 2rem; color: #28a745;">98.5%</div>
+                <div style="color: #666; font-size: 0.9rem;">+2.3% from last week</div>
+            </div>
+            <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #666; margin-bottom: 0.5rem;">Response Time</h4>
+                <div style="font-size: 2rem; color: #ffc107;">4.5 min</div>
+                <div style="color: #666; font-size: 0.9rem;">-30 sec from last week</div>
+            </div>
+            <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #666; margin-bottom: 0.5rem;">Completed Today</h4>
+                <div style="font-size: 2rem; color: #1e3c72;">47</div>
+                <div style="color: #666; font-size: 0.9rem;">Target: 50</div>
+            </div>
+            <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <h4 style="color: #666; margin-bottom: 0.5rem;">Pending Since</h4>
+                <div style="font-size: 2rem; color: #dc3545;">3 days</div>
+                <div style="color: #666; font-size: 0.9rem;">Oldest application</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024  Scholarship Portal - Government of India (Clerk Panel)</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Sample applications data
+        const applications = [
+            {
+                id: 'APP001',
+                name: 'Rahul Sharma',
+                scholarship: ' Merit Scholarship',
+                date: '15-09-2024',
+                risk: 'Low',
+                priority: 'low',
+                status: 'pending'
+            },
+            {
+                id: 'APP002',
+                name: 'Priya Patel',
+                scholarship: 'SC/ST Scholarship',
+                date: '10-09-2024',
+                risk: 'Low',
+                priority: 'medium',
+                status: 'approved'
+            },
+            {
+                id: 'APP003',
+                name: 'Mohammed Khan',
+                scholarship: 'Minority Scholarship',
+                date: '05-09-2024',
+                risk: 'High',
+                priority: 'high',
+                status: 'rejected'
+            },
+            {
+                id: 'APP004',
+                name: 'Lakshmi Reddy',
+                scholarship: 'Girl Child Scholarship',
+                date: '12-09-2024',
+                risk: 'Medium',
+                priority: 'high',
+                status: 'review'
+            },
+            {
+                id: 'APP005',
+                name: 'Suresh Yadav',
+                scholarship: 'OBC Scholarship',
+                date: '18-09-2024',
+                risk: 'Medium',
+                priority: 'medium',
+                status: 'pending'
+            },
+            {
+                id: 'APP006',
+                name: 'Neha Singh',
+                scholarship: 'Merit cum Means',
+                date: '14-09-2024',
+                risk: 'Low',
+                priority: 'low',
+                status: 'pending'
+            },
+            {
+                id: 'APP007',
+                name: 'Amit Kumar',
+                scholarship: 'Sports Scholarship',
+                date: '13-09-2024',
+                risk: 'High',
+                priority: 'high',
+                status: 'review'
+            },
+            {
+                id: 'APP008',
+                name: 'Pooja Desai',
+                scholarship: 'Girl Child Scholarship',
+                date: '11-09-2024',
+                risk: 'Medium',
+                priority: 'medium',
+                status: 'pending'
+            }
+        ];
+
+        // Load applications table
+        function loadApplications() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            applications.forEach(app => {
+                const row = document.createElement('tr');
+                row.onclick = () => window.location.href = `review_application.html?id=${app.id}`;
+                
+                row.innerHTML = `
+                    <td><strong>${app.id}</strong></td>
+                    <td>${app.name}</td>
+                    <td>${app.scholarship}</td>
+                    <td>${app.date}</td>
+                    <td><span class="risk-score risk-${app.risk.toLowerCase()}">${app.risk}</span></td>
+                    <td><span class="priority-${app.priority}">${app.priority.toUpperCase()}</span></td>
+                    <td><span class="status-badge status-${app.status}">${getStatusText(app.status)}</span></td>
+                    <td>
+                        <div class="action-buttons" onclick="event.stopPropagation()">
+                            <button class="btn-icon review" onclick="reviewApplication('${app.id}')">Review</button>
+                            <button class="btn-icon approve" onclick="quickApprove('${app.id}')">✓</button>
+                            <button class="btn-icon reject" onclick="quickReject('${app.id}')">✗</button>
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        // Get status text
+        function getStatusText(status) {
+            const statusMap = {
+                'pending': 'Pending',
+                'review': 'Under Review',
+                'approved': 'Approved',
+                'rejected': 'Rejected'
+            };
+            return statusMap[status] || status;
+        }
+
+        // Update date and time
+        function updateDateTime() {
+            const now = new Date();
+            
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('en-IN', dateOptions);
+            
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-IN', timeOptions);
+        }
+
+        // Filter applications
+        function filterApplications() {
+            const status = document.getElementById('statusFilter').value;
+            const priority = document.getElementById('priorityFilter').value;
+            
+            showAlert('Filters applied', 'success');
+        }
+
+        // Clear filters
+        function clearFilters() {
+            document.getElementById('statusFilter').value = 'all';
+            document.getElementById('priorityFilter').value = 'all';
+            document.getElementById('typeFilter').value = 'all';
+            document.getElementById('dateFilter').value = '';
+            
+            showAlert('Filters cleared', 'info');
+        }
+
+        // Apply filters
+        function applyFilters() {
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                filterApplications();
+            }, 1000);
+        }
+
+        // Review application
+        function reviewApplication(id) {
+            window.location.href = `review_application.html?id=${id}`;
+        }
+
+        // Quick approve
+        function quickApprove(id) {
+            if (confirm(`Approve application ${id}?`)) {
+                showAlert(`Application ${id} approved successfully!`, 'success');
+            }
+        }
+
+        // Quick reject
+        function quickReject(id) {
+            if (confirm(`Reject application ${id}?`)) {
+                showAlert(`Application ${id} rejected`, 'warning');
+            }
+        }
+
+        // Filter by priority
+        function filterByPriority(priority) {
+            document.getElementById('priorityFilter').value = priority;
+            filterApplications();
+        }
+
+        // Refresh table
+        function refreshTable() {
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                showAlert('Table refreshed', 'success');
+            }, 1000);
+        }
+
+        // Export table
+        function exportTable() {
+            showAlert('Exporting applications data...', 'info');
+            setTimeout(() => {
+                showAlert('Export completed!', 'success');
+            }, 1500);
+        }
+
+        // Export report
+        function exportReport() {
+            showAlert('Generating verification report...', 'info');
+            setTimeout(() => {
+                showAlert('Report generated successfully!', 'success');
+            }, 2000);
+        }
+
+        // Update chart
+        function updateChart() {
+            showAlert('Chart updated', 'success');
+        }
+
+        // Show help
+        function showHelp() {
+            alert('Verification Guidelines:\n\n1. Verify all documents carefully\n2. Check income certificates against income declared\n3. Verify educational documents with original\n4. Flag any discrepancies\n5. Add remarks for rejected applications');
+        }
+
+        // Show alert
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '20px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.style.minWidth = '300px';
+            alertDiv.textContent = message;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadApplications();
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            
+            // Show welcome message
+            setTimeout(() => {
+                showAlert('Welcome back, Rajesh! 24 applications pending review.', 'info');
+            }, 500);
+        });
+    </script>
+</body>
+</html>

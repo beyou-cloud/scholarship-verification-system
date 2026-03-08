@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Application -  Scholarship Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Additional styles for review application page */
+        .review-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        /* Header */
+        .review-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px 15px 0 0;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .review-header::before {
+            content: "🇮🇳";
+            position: absolute;
+            right: 20px;
+            bottom: -20px;
+            font-size: 120px;
+            opacity: 0.1;
+            transform: rotate(-10deg);
+        }
+        
+        .review-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #ff9933;
+        }
+        
+        .review-header p {
+            opacity: 0.9;
+        }
+        
+        .app-id-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 2px solid #ff9933;
+        }
+        
+        /* Navigation Tabs */
+        .review-tabs {
+            display: flex;
+            background: white;
+            border-radius: 0 0 15px 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            color: #1e3c72;
+            background: #f8f9fa;
+        }
+        
+        .tab.active {
+            color: #1e3c72;
+            border-bottom-color: #1e3c72;
+            background: #f0f7ff;
+        }
+        
+        /* Application Summary Card */
+        .summary-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .summary-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #1e3c72;
+        }
+        
+        .summary-content h4 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .summary-content p {
+            color: #333;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        /* Main Content Grid */
+        .review-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* Student Details Section */
+        .details-section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            color: #1e3c72;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #ff9933;
+        }
+        
+        .info-group {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .info-label {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .info-value {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .info-value.highlight {
+            color: #1e3c72;
+            font-weight: bold;
+        }
+        
+        /* Document Verification Section */
+        .documents-section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .document-list {
+            margin-bottom: 1.5rem;
+        }
+        
+        .document-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .document-item:hover {
+            border-color: #1e3c72;
+        }
+        
+        .document-item.verified {
+            border-color: #28a745;
+            background: #f0fff4;
+        }
+        
+        .document-item.rejected {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+        
+        .document-icon {
+            width: 50px;
+            height: 50px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .document-info {
+            flex: 1;
+        }
+        
+        .document-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+        
+        .document-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .document-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .doc-action {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .doc-action.view {
+            background: #1e3c72;
+            color: white;
+        }
+        
+        .doc-action.verify {
+            background: #28a745;
+            color: white;
+        }
+        
+        .doc-action.reject {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .doc-action:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Verification Status */
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-verified {
+            background: #28a745;
+        }
+        
+        .status-pending {
+            background: #ffc107;
+        }
+        
+        .status-rejected {
+            background: #dc3545;
+        }
+        
+        /* Risk Assessment */
+        .risk-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .risk-meter {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        
+        .risk-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            border: 8px solid;
+        }
+        
+        .risk-circle.low {
+            border-color: #28a745;
+            color: #28a745;
+        }
+        
+        .risk-circle.medium {
+            border-color: #ffc107;
+            color: #856404;
+        }
+        
+        .risk-circle.high {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+        
+        .risk-factors {
+            margin-top: 1rem;
+        }
+        
+        .risk-factor {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .risk-factor-name {
+            color: #666;
+        }
+        
+        .risk-factor-value {
+            font-weight: bold;
+        }
+        
+        .risk-factor-value.positive {
+            color: #28a745;
+        }
+        
+        .risk-factor-value.negative {
+            color: #dc3545;
+        }
+        
+        /* Verification Report */
+        .report-section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .remarks-box {
+            margin: 1.5rem 0;
+        }
+        
+        .remarks-box textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .remarks-box textarea:focus {
+            border-color: #1e3c72;
+            outline: none;
+        }
+        
+        .verification-checklist {
+            margin: 1.5rem 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .btn-approve {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-reject {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-reupload {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        /* Verification History */
+        .history-section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 1.5rem;
+        }
+        
+        .history-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-left: 4px solid #1e3c72;
+            background: #f8f9fa;
+            margin-bottom: 1rem;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .history-icon {
+            font-size: 1.5rem;
+        }
+        
+        .history-content {
+            flex: 1;
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+        }
+        
+        .history-actor {
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        
+        .history-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .history-action {
+            color: #333;
+        }
+        
+        .history-comment {
+            color: #666;
+            font-style: italic;
+            margin-top: 0.3rem;
+            font-size: 0.95rem;
+        }
+        
+        /* Similar Applications */
+        .similar-apps {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 1.5rem;
+        }
+        
+        .similar-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        
+        .similar-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .similar-info h4 {
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+        
+        .similar-meta {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .review-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .review-header h1 {
+                font-size: 2rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn-large {
+                width: 100%;
+            }
+            
+            .document-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .document-actions {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span>🇮🇳  Scholarship Portal (Clerk Panel)</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="clerk_dashboard.html">Dashboard</a></li>
+                <li><a href="review_application.html" class="active">Review</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="review-container">
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="spinner"></div>
+
+        <!-- Header -->
+        <div class="review-header">
+            <div>
+                <h1>🔍 Review Application</h1>
+                <p>Verify documents and process scholarship application</p>
+            </div>
+            <div class="app-id-badge" id="appId">APP001</div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="review-tabs">
+            <div class="tab active" onclick="switchTab('details')">📋 Application Details</div>
+            <div class="tab" onclick="switchTab('documents')">📎 Documents</div>
+            <div class="tab" onclick="switchTab('history')">📜 Verification History</div>
+            <div class="tab" onclick="switchTab('similar')">👥 Similar Applications</div>
+        </div>
+
+        <!-- Application Summary Card -->
+        <div class="summary-card">
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-icon">👤</div>
+                    <div class="summary-content">
+                        <h4>Student Name</h4>
+                        <p id="studentName">Rahul Sharma</p>
+                    </div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-icon">🎓</div>
+                    <div class="summary-content">
+                        <h4>Scholarship</h4>
+                        <p id="scholarshipName"> Merit Scholarship</p>
+                    </div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-icon">📅</div>
+                    <div class="summary-content">
+                        <h4>Applied Date</h4>
+                        <p id="appliedDate">15-09-2024</p>
+                    </div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-icon">⏳</div>
+                    <div class="summary-content">
+                        <h4>Days Pending</h4>
+                        <p id="daysPending">5 days</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="review-grid" id="detailsTab">
+            <!-- Left Column - Student Details -->
+            <div>
+                <div class="details-section">
+                    <div class="section-title">
+                        <span>👤</span> Personal Information
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Full Name:</span>
+                        <span class="info-value">Rahul Sharma</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Date of Birth:</span>
+                        <span class="info-value">15-05-2002 (22 years)</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Aadhaar Number:</span>
+                        <span class="info-value">1234-5678-9012</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Mobile:</span>
+                        <span class="info-value">9876543210</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">rahul.sharma@example.com</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Category:</span>
+                        <span class="info-value">General</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Annual Income:</span>
+                        <span class="info-value highlight">₹2,50,000</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">123, Gandhi Nagar, New Delhi - 110001</span>
+                    </div>
+                </div>
+
+                <div class="details-section" style="margin-top: 1.5rem;">
+                    <div class="section-title">
+                        <span>🎓</span> Educational Information
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Qualification:</span>
+                        <span class="info-value">B.Tech</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Institute:</span>
+                        <span class="info-value">Delhi University</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Course:</span>
+                        <span class="info-value">Computer Science</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Year of Study:</span>
+                        <span class="info-value">2nd Year</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Percentage:</span>
+                        <span class="info-value highlight">85.5%</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Enrollment No:</span>
+                        <span class="info-value">2024CS001</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Risk Assessment & Verification -->
+            <div>
+                <!-- Risk Assessment Card -->
+                <div class="risk-card">
+                    <div class="section-title">
+                        <span>⚠️</span> Risk Assessment
+                    </div>
+                    <div class="risk-meter">
+                        <div class="risk-circle low" id="riskCircle">LOW</div>
+                    </div>
+                    <div class="risk-factors">
+                        <div class="risk-factor">
+                            <span class="risk-factor-name">Income Verification</span>
+                            <span class="risk-factor-value positive">✓ Verified</span>
+                        </div>
+                        <div class="risk-factor">
+                            <span class="risk-factor-name">Document Authenticity</span>
+                            <span class="risk-factor-value positive">✓ Verified</span>
+                        </div>
+                        <div class="risk-factor">
+                            <span class="risk-factor-name">Previous Scholarships</span>
+                            <span class="risk-factor-value positive">None</span>
+                        </div>
+                        <div class="risk-factor">
+                            <span class="risk-factor-name">Address Consistency</span>
+                            <span class="risk-factor-value positive">✓ Matched</span>
+                        </div>
+                        <div class="risk-factor">
+                            <span class="risk-factor-name">Age Verification</span>
+                            <span class="risk-factor-value positive">✓ Valid</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="risk-card">
+                    <div class="section-title">
+                        <span>⚡</span> Quick Actions
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <button class="btn btn-primary" onclick="verifyAllDocuments()" style="width: 100%;">✅ Verify All Documents</button>
+                        <button class="btn btn-secondary" onclick="callStudent()" style="width: 100%;">📞 Call Student</button>
+                        <button class="btn btn-secondary" onclick="sendReminder()" style="width: 100%;">📧 Send Reminder</button>
+                        <button class="btn btn-secondary" onclick="addNote()" style="width: 100%;">📝 Add Note</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documents Tab (Hidden by default) -->
+        <div id="documentsTab" style="display: none;">
+            <div class="documents-section">
+                <div class="section-title">
+                    <span>📎</span> Document Verification
+                </div>
+                <div class="document-list">
+                    <!-- Aadhaar Card -->
+                    <div class="document-item verified" id="docAadhaar">
+                        <div class="document-icon">🆔</div>
+                        <div class="document-info">
+                            <div class="document-name">Aadhaar Card</div>
+                            <div class="document-meta">
+                                <span>aadhaar.pdf</span>
+                                <span>2.1 MB</span>
+                                <span>Uploaded: 15-09-2024</span>
+                            </div>
+                        </div>
+                        <div class="document-actions">
+                            <button class="doc-action view" onclick="viewDocument('aadhaar')">👁️ View</button>
+                            <button class="doc-action verify" onclick="verifyDocument('aadhaar')">✓ Verify</button>
+                            <button class="doc-action reject" onclick="rejectDocument('aadhaar')">✗ Reject</button>
+                        </div>
+                    </div>
+
+                    <!-- PAN Card -->
+                    <div class="document-item verified" id="docPAN">
+                        <div class="document-icon">💳</div>
+                        <div class="document-info">
+                            <div class="document-name">PAN Card</div>
+                            <div class="document-meta">
+                                <span>pan.pdf</span>
+                                <span>1.2 MB</span>
+                                <span>Uploaded: 15-09-2024</span>
+                            </div>
+                        </div>
+                        <div class="document-actions">
+                            <button class="doc-action view" onclick="viewDocument('pan')">👁️ View</button>
+                            <button class="doc-action verify" onclick="verifyDocument('pan')">✓ Verify</button>
+                            <button class="doc-action reject" onclick="rejectDocument('pan')">✗ Reject</button>
+                        </div>
+                    </div>
+
+                    <!-- Income Certificate -->
+                    <div class="document-item" id="docIncome">
+                        <div class="document-icon">💰</div>
+                        <div class="document-info">
+                            <div class="document-name">Income Certificate</div>
+                            <div class="document-meta">
+                                <span>income.pdf</span>
+                                <span>1.8 MB</span>
+                                <span>Uploaded: 15-09-2024</span>
+                            </div>
+                        </div>
+                        <div class="document-actions">
+                            <button class="doc-action view" onclick="viewDocument('income')">👁️ View</button>
+                            <button class="doc-action verify" onclick="verifyDocument('income')">✓ Verify</button>
+                            <button class="doc-action reject" onclick="rejectDocument('income')">✗ Reject</button>
+                        </div>
+                    </div>
+
+                    <!-- 10th Marksheet -->
+                    <div class="document-item verified" id="doc10th">
+                        <div class="document-icon">📑</div>
+                        <div class="document-info">
+                            <div class="document-name">10th Marksheet</div>
+                            <div class="document-meta">
+                                <span>10th.pdf</span>
+                                <span>2.3 MB</span>
+                                <span>Uploaded: 15-09-2024</span>
+                            </div>
+                        </div>
+                        <div class="document-actions">
+                            <button class="doc-action view" onclick="viewDocument('10th')">👁️ View</button>
+                            <button class="doc-action verify" onclick="verifyDocument('10th')">✓ Verify</button>
+                            <button class="doc-action reject" onclick="rejectDocument('10th')">✗ Reject</button>
+                        </div>
+                    </div>
+
+                    <!-- 12th Marksheet -->
+                    <div class="document-item verified" id="doc12th">
+                        <div class="document-icon">📑</div>
+                        <div class="document-info">
+                            <div class="document-name">12th Marksheet</div>
+                            <div class="document-meta">
+                                <span>12th.pdf</span>
+                                <span>2.4 MB</span>
+                                <span>Uploaded: 15-09-2024</span>
+                            </div>
+                        </div>
+                        <div class="document-actions">
+                            <button class="doc-action view" onclick="viewDocument('12th')">👁️ View</button>
+                            <button class="doc-action verify" onclick="verifyDocument('12th')">✓ Verify</button>
+                            <button class="doc-action reject" onclick="rejectDocument('12th')">✗ Reject</button>
+                        </div>
+                    </div>
+
+                    <!-- Passport Photo -->
+                    <div class="document-item verified" id="docPhoto">
+                        <div class="document-icon">📸</div>
+                        <div class="document-info">
+                            <div class="document-name">Passport Photo</div>
+                            <div class="document-meta">
+                                <span>photo.jpg</span>
+                                <span>150 KB</span>
+                                <span>Uploaded: 15-09-2024</span>
+                            </div>
+                        </div>
+                        <div class="document-actions">
+                            <button class="doc-action view" onclick="viewDocument('photo')">👁️ View</button>
+                            <button class="doc-action verify" onclick="verifyDocument('photo')">✓ Verify</button>
+                            <button class="doc-action reject" onclick="rejectDocument('photo')">✗ Reject</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Verification Report -->
+                <div class="report-section">
+                    <div class="section-title">
+                        <span>📋</span> Verification Report
+                    </div>
+                    
+                    <div class="verification-checklist">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check1" checked disabled>
+                            <label for="check1">Identity verification complete</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check2" checked disabled>
+                            <label for="check2">Address verification complete</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check3" disabled>
+                            <label for="check3">Income verification pending</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check4" checked disabled>
+                            <label for="check4">Educational documents verified</label>
+                        </div>
+                    </div>
+
+                    <div class="remarks-box">
+                        <label style="font-weight: 500; color: #333;">Clerk Remarks</label>
+                        <textarea id="clerkRemarks" placeholder="Enter your verification remarks here...">All documents verified except income certificate. Income certificate shows amount ₹2,50,000 which matches declaration. Waiting for final verification.</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Tab (Hidden by default) -->
+        <div id="historyTab" style="display: none;">
+            <div class="history-section">
+                <div class="section-title">
+                    <span>📜</span> Verification History
+                </div>
+                
+                <div class="history-item">
+                    <div class="history-icon">✓</div>
+                    <div class="history-content">
+                        <div class="history-header">
+                            <span class="history-actor">System</span>
+                            <span class="history-date">15-09-2024 10:30 AM</span>
+                        </div>
+                        <div class="history-action">Application submitted by student</div>
+                    </div>
+                </div>
+
+                <div class="history-item">
+                    <div class="history-icon">👁️</div>
+                    <div class="history-content">
+                        <div class="history-header">
+                            <span class="history-actor">Clerk Rajesh</span>
+                            <span class="history-date">16-09-2024 09:15 AM</span>
+                        </div>
+                        <div class="history-action">Started verification process</div>
+                    </div>
+                </div>
+
+                <div class="history-item">
+                    <div class="history-icon">✅</div>
+                    <div class="history-content">
+                        <div class="history-header">
+                            <span class="history-actor">Clerk Rajesh</span>
+                            <span class="history-date">16-09-2024 09:30 AM</span>
+                        </div>
+                        <div class="history-action">Verified Aadhaar, PAN, and educational documents</div>
+                    </div>
+                </div>
+
+                <div class="history-item">
+                    <div class="history-icon">⏳</div>
+                    <div class="history-content">
+                        <div class="history-header">
+                            <span class="history-actor">System</span>
+                            <span class="history-date">16-09-2024 02:00 PM</span>
+                        </div>
+                        <div class="history-action">Income certificate verification pending</div>
+                    </div>
+                </div>
+
+                <div class="history-item">
+                    <div class="history-icon">📝</div>
+                    <div class="history-content">
+                        <div class="history-header">
+                            <span class="history-actor">Clerk Rajesh</span>
+                            <span class="history-date">17-09-2024 11:00 AM</span>
+                        </div>
+                        <div class="history-action">Added remarks: "Income certificate needs verification"</div>
+                        <div class="history-comment">"Please verify income amount with bank statement"</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Similar Applications Tab (Hidden by default) -->
+        <div id="similarTab" style="display: none;">
+            <div class="similar-apps">
+                <div class="section-title">
+                    <span>👥</span> Similar Applications
+                </div>
+
+                <div class="similar-item" onclick="viewApplication('APP002')">
+                    <div class="similar-info">
+                        <h4>Priya Patel</h4>
+                        <div class="similar-meta">SC/ST Scholarship • Applied: 10-09-2024</div>
+                    </div>
+                    <span class="status-badge status-approved">Approved</span>
+                </div>
+
+                <div class="similar-item" onclick="viewApplication('APP005')">
+                    <div class="similar-info">
+                        <h4>Suresh Yadav</h4>
+                        <div class="similar-meta">OBC Scholarship • Applied: 18-09-2024</div>
+                    </div>
+                    <span class="status-badge status-pending">Pending</span>
+                </div>
+
+                <div class="similar-item" onclick="viewApplication('APP008')">
+                    <div class="similar-info">
+                        <h4>Pooja Desai</h4>
+                        <div class="similar-meta">Girl Child Scholarship • Applied: 11-09-2024</div>
+                    </div>
+                    <span class="status-badge status-review">Under Review</span>
+                </div>
+
+                <div class="similar-item" onclick="viewApplication('APP010')">
+                    <div class="similar-info">
+                        <h4>Vikram Singh</h4>
+                        <div class="similar-meta">Merit Scholarship • Applied: 09-09-2024</div>
+                    </div>
+                    <span class="status-badge status-approved">Approved</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn btn-large btn-approve" onclick="approveApplication()">
+                <span>✅ Approve Application</span>
+            </button>
+            <button class="btn btn-large btn-reject" onclick="rejectApplication()">
+                <span>❌ Reject Application</span>
+            </button>
+            <button class="btn btn-large btn-reupload" onclick="requestReupload()">
+                <span>📎 Request Re-upload</span>
+            </button>
+            <button class="btn btn-large btn-secondary" onclick="saveForLater()">
+                <span>💾 Save for Later</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024  Scholarship Portal - Government of India (Clerk Panel)</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Get application ID from URL
+        function getAppId() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id') || 'APP001';
+        }
+
+        // Switch between tabs
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.getElementById('detailsTab').style.display = 'none';
+            document.getElementById('documentsTab').style.display = 'none';
+            document.getElementById('historyTab').style.display = 'none';
+            document.getElementById('similarTab').style.display = 'none';
+            
+            // Show selected tab
+            document.getElementById(tabName + 'Tab').style.display = 'block';
+            
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // View document
+        function viewDocument(docType) {
+            showAlert(`Opening ${docType} document...`, 'info');
+            setTimeout(() => {
+                showAlert('Document viewer opened', 'success');
+            }, 1000);
+        }
+
+        // Verify document
+        function verifyDocument(docType) {
+            const docElement = document.getElementById(`doc${docType.charAt(0).toUpperCase() + docType.slice(1)}`);
+            docElement.classList.add('verified');
+            docElement.classList.remove('rejected');
+            showAlert(`${docType} document verified successfully!`, 'success');
+            updateRiskScore();
+        }
+
+        // Reject document
+        function rejectDocument(docType) {
+            if (confirm(`Reject ${docType} document?`)) {
+                const docElement = document.getElementById(`doc${docType.charAt(0).toUpperCase() + docType.slice(1)}`);
+                docElement.classList.add('rejected');
+                docElement.classList.remove('verified');
+                showAlert(`${docType} document rejected`, 'warning');
+                updateRiskScore();
+            }
+        }
+
+        // Verify all documents
+        function verifyAllDocuments() {
+            if (confirm('Verify all documents?')) {
+                const docs = ['Aadhaar', 'PAN', 'Income', '10th', '12th', 'Photo'];
+                docs.forEach(doc => {
+                    const docElement = document.getElementById(`doc${doc}`);
+                    if (docElement) {
+                        docElement.classList.add('verified');
+                        docElement.classList.remove('rejected');
+                    }
+                });
+                showAlert('All documents verified successfully!', 'success');
+                updateRiskScore();
+            }
+        }
+
+        // Update risk score based on document verification
+        function updateRiskScore() {
+            const verifiedCount = document.querySelectorAll('.document-item.verified').length;
+            const totalDocs = document.querySelectorAll('.document-item').length;
+            const rejectedCount = document.querySelectorAll('.document-item.rejected').length;
+            
+            const riskCircle = document.getElementById('riskCircle');
+            
+            if (rejectedCount > 0) {
+                riskCircle.textContent = 'HIGH';
+                riskCircle.className = 'risk-circle high';
+            } else if (verifiedCount === totalDocs) {
+                riskCircle.textContent = 'LOW';
+                riskCircle.className = 'risk-circle low';
+            } else {
+                riskCircle.textContent = 'MEDIUM';
+                riskCircle.className = 'risk-circle medium';
+            }
+        }
+
+        // Call student
+        function callStudent() {
+            showAlert('Initiating call to student...', 'info');
+        }
+
+        // Send reminder
+        function sendReminder() {
+            showAlert('Reminder sent to student', 'success');
+        }
+
+        // Add note
+        function addNote() {
+            const note = prompt('Enter your note:');
+            if (note) {
+                showAlert('Note added successfully', 'success');
+            }
+        }
+
+        // Approve application
+        function approveApplication() {
+            const remarks = document.getElementById('clerkRemarks').value;
+            if (confirm('Are you sure you want to approve this application?')) {
+                showLoading();
+                setTimeout(() => {
+                    hideLoading();
+                    showAlert('Application approved successfully!', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'clerk_dashboard.html';
+                    }, 2000);
+                }, 2000);
+            }
+        }
+
+        // Reject application
+        function rejectApplication() {
+            const remarks = document.getElementById('clerkRemarks').value;
+            if (!remarks || remarks === 'Enter your verification remarks here...') {
+                alert('Please add rejection remarks before rejecting.');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to reject this application?')) {
+                showLoading();
+                setTimeout(() => {
+                    hideLoading();
+                    showAlert('Application rejected', 'warning');
+                    setTimeout(() => {
+                        window.location.href = 'clerk_dashboard.html';
+                    }, 2000);
+                }, 2000);
+            }
+        }
+
+        // Request re-upload
+        function requestReupload() {
+            if (confirm('Request student to re-upload documents?')) {
+                showAlert('Re-upload request sent to student', 'info');
+            }
+        }
+
+        // Save for later
+        function saveForLater() {
+            showAlert('Progress saved', 'success');
+            setTimeout(() => {
+                window.location.href = 'clerk_dashboard.html';
+            }, 1500);
+        }
+
+        // View another application
+        function viewApplication(id) {
+            window.location.href = `review_application.html?id=${id}`;
+        }
+
+        // Show alert
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '20px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.style.minWidth = '300px';
+            alertDiv.textContent = message;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const appId = getAppId();
+            document.getElementById('appId').textContent = appId;
+            
+            // Show appropriate message based on app ID
+            showAlert(`Reviewing application ${appId}`, 'info');
+            
+            // Update risk score on load
+            setTimeout(updateRiskScore, 500);
+        });
+    </script>
+</body>
+</html>

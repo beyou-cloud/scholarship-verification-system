@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Scholarship System</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container" style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+        <div class="card" style="max-width: 400px; width: 100%;">
+            <h2 style="text-align: center; margin-bottom: 20px;">Login</h2>
+            
+            <div id="errorContainer"></div>
+            
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" value="student@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" value="password123" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+                
+                <p style="text-align: center; margin-top: 15px;">
+                    Don't have an account? <a href="register.html">Register</a>
+                </p>
+            </form>
+            
+            <div style="margin-top: 20px; padding: 10px; background: #f7fafc; border-radius: 4px; font-size: 0.9rem;">
+                <p><strong>Demo Credentials:</strong></p>
+                <p>student@example.com / password123</p>
+                <p>provider@example.com / password123</p>
+                <p>clerk@example.com / password123</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple demo login
+            if (email === 'student@example.com' && password === 'password123') {
+                localStorage.setItem('user', JSON.stringify({ name: 'Rahul', role: 'student' }));
+                window.location.href = 'student_dashboard.html';
+            } 
+            else if (email === 'provider@example.com' && password === 'password123') {
+                localStorage.setItem('user', JSON.stringify({ name: 'ABC Foundation', role: 'provider' }));
+                window.location.href = 'provider_dashboard.html';
+            }
+            else if (email === 'clerk@example.com' && password === 'password123') {
+                localStorage.setItem('user', JSON.stringify({ name: 'Govt Clerk', role: 'clerk' }));
+                window.location.href = 'clerk_dashboard.html';
+            }
+            else {
+                document.getElementById('errorContainer').innerHTML = 
+                    '<div class="error">Invalid credentials</div>';
+            }
+        }
+    </script>
+</body>
+</html>

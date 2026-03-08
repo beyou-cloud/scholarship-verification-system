@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login -  Scholarship Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Additional styles for login page */
+        .login-container {
+            min-height: calc(100vh - 150px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .login-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-header::before {
+            content: "🇮🇳";
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 100px;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+        
+        .login-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #ff9933;
+        }
+        
+        .login-header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        
+        .login-body {
+            padding: 2rem;
+        }
+        
+        .role-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+        
+        .role-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            flex: 1;
+            max-width: 120px;
+        }
+        
+        .role-btn.active {
+            background: #1e3c72;
+            color: white;
+            border-color: #1e3c72;
+        }
+        
+        .role-btn.student.active {
+            background: #28a745;
+            border-color: #28a745;
+        }
+        
+        .role-btn.clerk.active {
+            background: #ffc107;
+            border-color: #ffc107;
+            color: #333;
+        }
+        
+        .role-btn.provider.active {
+            background: #dc3545;
+            border-color: #dc3545;
+        }
+        
+        .login-footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .login-footer a {
+            color: #1e3c72;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .login-footer a:hover {
+            text-decoration: underline;
+            color: #ff9933;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid #28a745;
+        }
+        
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+        }
+        
+        .forgot-password {
+            color: #1e3c72;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .forgot-password:hover {
+            color: #ff9933;
+            text-decoration: underline;
+        }
+        
+        .demo-credentials {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #e9ecef;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .demo-credentials h4 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+        
+        .demo-credentials p {
+            margin-bottom: 0.3rem;
+            color: #666;
+        }
+        
+        .demo-credentials .badge {
+            background: #ff9933;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .input-with-icon input {
+            padding-left: 35px;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .password-toggle:hover {
+            color: #1e3c72;
+        }
+        
+        .captcha-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .captcha-box {
+            background: #1e3c72;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 5px;
+            font-family: monospace;
+        }
+        
+        .refresh-captcha {
+            cursor: pointer;
+            color: #1e3c72;
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 480px) {
+            .login-card {
+                margin: 1rem;
+            }
+            
+            .role-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .role-btn {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span>🇮🇳  Scholarship Portal</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="login.html" class="active">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="../index.html#about">About</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h2>🔐 Login Portal</h2>
+                <p>Sign in to access your dashboard</p>
+            </div>
+            
+            <div class="login-body">
+                <!-- Loading Spinner -->
+                <div id="loadingSpinner" class="spinner"></div>
+                
+                <!-- Error Message Area -->
+                <div id="errorMessage" class="error-message">
+                    <strong>⚠️ Error:</strong> <span id="errorText"></span>
+                </div>
+                
+                <!-- Success Message Area -->
+                <div id="successMessage" class="success-message">
+                    <strong>✅ Success:</strong> <span id="successText"></span>
+                </div>
+                
+                <!-- Role Selector -->
+                <div class="role-selector">
+                    <button class="role-btn student active" onclick="selectRole('student')">🎓 Student</button>
+                    <button class="role-btn clerk" onclick="selectRole('clerk')">📋 Clerk</button>
+                    <button class="role-btn provider" onclick="selectRole('provider')">💼 Provider</button>
+                </div>
+                
+                <!-- Login Form -->
+                <form id="loginForm">
+                    <input type="hidden" id="selectedRole" value="student">
+                    
+                    <div class="form-group">
+                        <label for="email">📧 Email Address</label>
+                        <div class="input-with-icon">
+                            
+                            <input type="email" id="email" placeholder="Enter your email" value="student@example.com">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">🔒 Password</label>
+                        <div class="input-with-icon">
+                            
+                            <input type="password" id="password" placeholder="Enter your password" value="password123">
+                            <span class="password-toggle" onclick="togglePassword()">👁️</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Captcha for security (like government sites) -->
+                    <div class="captcha-container">
+                        <div class="captcha-box" id="captchaText">5A8B9</div>
+                        <input type="text" id="captcha" placeholder="Enter CAPTCHA" style="flex:1;">
+                        <span class="refresh-captcha" onclick="refreshCaptcha()">🔄</span>
+                    </div>
+                    
+                    <div class="remember-forgot">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe"> Remember me
+                        </label>
+                        <a href="#" class="forgot-password" onclick="forgotPassword()">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">
+                        <span id="loginText">🔓 Login</span>
+                        <span id="loginLoading" style="display: none;">⏳ Logging in...</span>
+                    </button>
+                </form>
+                
+                <!-- Demo Credentials (for testing) -->
+                <div class="demo-credentials">
+                    <h4>📝 Demo Credentials (Click to autofill)</h4>
+                    <p onclick="fillCredentials('student')" style="cursor: pointer;">
+                        <strong>🎓 Student:</strong> student@example.com / password123 
+                        <span class="badge">Click to fill</span>
+                    </p>
+                    <p onclick="fillCredentials('clerk')" style="cursor: pointer;">
+                        <strong>📋 Clerk:</strong> clerk@example.com / password123 
+                        <span class="badge">Click to fill</span>
+                    </p>
+                    <p onclick="fillCredentials('provider')" style="cursor: pointer;">
+                        <strong>💼 Provider:</strong> provider@example.com / password123 
+                        <span class="badge">Click to fill</span>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="login-footer">
+                <p>Don't have an account? <a href="register.html">Register here</a></p>
+                <p style="margin-top: 0.5rem; font-size: 0.8rem; color: #999;">
+                    By logging in, you agree to our Terms of Service
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024  Scholarship Portal - Government of India</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script>
+        // Current selected role
+        let currentRole = 'student';
+        
+        // Select role function
+        function selectRole(role) {
+            currentRole = role;
+            document.getElementById('selectedRole').value = role;
+            
+            // Update active class on buttons
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (role === 'student') {
+                document.querySelector('.role-btn.student').classList.add('active');
+            } else if (role === 'clerk') {
+                document.querySelector('.role-btn.clerk').classList.add('active');
+            } else if (role === 'provider') {
+                document.querySelector('.role-btn.provider').classList.add('active');
+            }
+            
+            // Show different placeholder based on role
+            const emailField = document.getElementById('email');
+            if (role === 'student') {
+                emailField.placeholder = 'student@example.com';
+            } else if (role === 'clerk') {
+                emailField.placeholder = 'clerk@example.com';
+            } else if (role === 'provider') {
+                emailField.placeholder = 'provider@example.com';
+            }
+        }
+        
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+        }
+        
+        // Refresh CAPTCHA
+        function refreshCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let captcha = '';
+            for (let i = 0; i < 5; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('captchaText').textContent = captcha;
+        }
+        
+        // Fill credentials based on role
+        function fillCredentials(role) {
+            selectRole(role);
+            
+            if (role === 'student') {
+                document.getElementById('email').value = 'student@example.com';
+                document.getElementById('password').value = 'password123';
+            } else if (role === 'clerk') {
+                document.getElementById('email').value = 'clerk@example.com';
+                document.getElementById('password').value = 'password123';
+            } else if (role === 'provider') {
+                document.getElementById('email').value = 'provider@example.com';
+                document.getElementById('password').value = 'password123';
+            }
+            
+            showMessage('✅ Demo credentials filled! Click Login to continue.', 'success');
+        }
+        
+        // Forgot password
+        function forgotPassword() {
+            showMessage('📧 Password reset link sent to your registered email!', 'success');
+        }
+        
+        // Show message function
+        function showMessage(message, type) {
+            if (type === 'error') {
+                document.getElementById('errorText').textContent = message;
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+                
+                setTimeout(() => {
+                    document.getElementById('errorMessage').style.display = 'none';
+                }, 3000);
+            } else {
+                document.getElementById('successText').textContent = message;
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('errorMessage').style.display = 'none';
+                
+                setTimeout(() => {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const captcha = document.getElementById('captcha').value;
+            const captchaText = document.getElementById('captchaText').textContent;
+            const role = document.getElementById('selectedRole').value;
+            
+            // Validate CAPTCHA
+            if (captcha !== captchaText) {
+                showMessage('Invalid CAPTCHA! Please try again.', 'error');
+                refreshCaptcha();
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loginText').style.display = 'none';
+            document.getElementById('loginLoading').style.display = 'inline';
+            document.querySelector('.btn-primary').disabled = true;
+            
+            // Simulate login process
+            setTimeout(() => {
+                // Hide loading
+                document.getElementById('loginText').style.display = 'inline';
+                document.getElementById('loginLoading').style.display = 'none';
+                document.querySelector('.btn-primary').disabled = false;
+                
+                // Demo validation
+                if (email && password) {
+                    showMessage('Login successful! Redirecting...', 'success');
+                    
+                    // Redirect based on role
+                    setTimeout(() => {
+                        if (role === 'student') {
+                            window.location.href = 'student_dashboard.html';
+                        } else if (role === 'clerk') {
+                            window.location.href = 'clerk_dashboard.html';
+                        } else if (role === 'provider') {
+                            window.location.href = 'provider_dashboard.html';
+                        }
+                    }, 1500);
+                } else {
+                    showMessage('Please enter email and password!', 'error');
+                }
+            }, 2000);
+        });
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default role
+            selectRole('student');
+            
+            // Generate random CAPTCHA
+            refreshCaptcha();
+            
+            // Add floating label effect
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.borderColor = '#1e3c72';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.borderColor = '#ddd';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
